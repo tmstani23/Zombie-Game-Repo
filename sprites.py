@@ -13,9 +13,22 @@ class Player(pg.sprite.Sprite):
         self.y = y
 
     #dx and dy are default x and y arguments that can be passed in
-    def move(self, dx=0, dy=0):
-        self.x += dx
-        self.y += dy
+    def move(self, dx = 0, dy = 0):
+        #if not colliding with wall allow player movement
+        if not self.wallCollision(dx, dy):
+            self.x += dx
+            self.y += dy
+    
+    def wallCollision(self, dx = 0, dy = 0):
+        #iterate through each wall in wall group
+        for wall in self.game.walls:
+            #check if wall x coord = player x plus xmove coord
+                #and wall y = player y + ymove coord\
+            #essentially, is space moving into = wall x and wall y?
+            if wall.x == self.x + dx and wall.y == self.y + dy:
+                return True
+        #if not True
+        return False 
 
     def update(self):
         self.rect.x = self.x * tileSize

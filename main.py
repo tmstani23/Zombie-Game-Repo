@@ -1,7 +1,7 @@
 # Silverhawk rpg game:
 import pygame as pg
 import random
-import os
+from os import path
 import sys
 #import all variables from settings.py file
     #so appending isn't necessary
@@ -23,22 +23,39 @@ class Game:
         #sets how long key should repeat when pressed
             #(how long to wait before repeat, length of repeat in ms)
         pg.key.set_repeat(250, 100)
-        #create a variable that holds the path of the game files
-        self.dir = os.path.dirname(__file__)
+        self.loadData()
         #print current working directory to console
-        print(os.getcwd())
+        print(path.dirname(__file__))
+    
+    def loadData(self):
+        #create a variable that holds the path of the game files
+        gameFolder = path.dirname(__file__)
+        self.mapData = []
+        #open game folder path and link to map.txt in read mode
+        with open(path.join(gameFolder, 'map.txt'), 'rt') as f:
+            #for each line in map.txt append line to mapData list
+            for line in f:
+                self.mapData.append(line)
         
     
     def newGame(self):
         #start a new Game
         self.allSprites = pg.sprite.Group()
-        #draw the player at tile 10 by 10
-        self.player = Player(self, 10, 10)
+        
         self.walls = pg.sprite.Group()
-        #spawn a wall from 10 to 20 tiles
-        for x in range(10, 20):
-            #create the wall at x of 10 to 20 and y of 5 tiles
-            Wall(self, x, 5) 
+        #enumerate row index position and tile data from list mapdata
+        for row, tiles in enumerate(self.mapData):
+            #enumerate index  of each column and data of each tile
+            #this provides x and y position of each tile within mapData list
+            for col, tile in enumerate(tiles):
+                #if the tile contains a 1
+                if tile == '1':
+                    #spawn a wall at the position
+                    Wall(self, col, row) 
+                if tile == 'p':
+                    #draw the player at tile 10 by 10
+                    self.player = Player(self, col, row)
+
 
     def run(self):
         #Game Loop
