@@ -13,7 +13,7 @@ yellow = (255, 255, 0)
 #Game options/settings
 title = "Zombie Survival!"
 width = 1024
-height = 768
+height = 640
 fps = 60
 bgColor = darkGrey
 
