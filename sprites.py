@@ -12,6 +12,7 @@ class Player(pg.sprite.Sprite):
         self.x = x
         self.y = y
 
+    #dx and dy are default x and y arguments that can be passed in
     def move(self, dx=0, dy=0):
         self.x += dx
         self.y += dy
@@ -22,6 +23,7 @@ class Player(pg.sprite.Sprite):
 
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
+        #create variable that holds all wall objects in a group
         self.groups = game.allSprites, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
