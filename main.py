@@ -62,6 +62,7 @@ class Game:
         self.playing = True
         while self.playing:
             #keep running at the right speed
+            #dt stands for delta t
             self.dt = self.clock.tick(fps) / 1000
             self.events()
             self.update()
@@ -84,15 +85,6 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
-                if event.key == pg.K_LEFT:
-                    self.player.move(dx=-1)
-                if event.key == pg.K_RIGHT:
-                    self.player.move(dx=+1)
-                if event.key == pg.K_DOWN:
-                    self.player.move(dy=+1)
-                if event.key == pg.K_UP:
-                    self.player.move(dy=-1)
-
 
     def drawGrid(self):
         #draw vertical lines to the screen

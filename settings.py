@@ -21,3 +21,5 @@ tileSize = 32
 gridWidth = width / tileSize
 gridHeight = height / tileSize
 
+#Player settings
+playerSpeed = 250 
