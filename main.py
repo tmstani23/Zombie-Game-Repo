@@ -1,6 +1,6 @@
 # Silverhawk rpg game:
 import pygame as pg
-import random
+from tilemap import *
 from os import path
 import sys
 #import all variables from settings.py file
@@ -16,7 +16,7 @@ class Game:
         #initialize sound mixer
         pg.mixer.init()
         #create screen variable that initializes the display
-        self.screen = pg.display.set_mode((width, height))
+        self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(title)
         #variable that holds pygame clock method
         self.clock = pg.time.Clock()
@@ -30,13 +30,7 @@ class Game:
     def loadData(self):
         #create a variable that holds the path of the game files
         gameFolder = path.dirname(__file__)
-        self.mapData = []
-        #open game folder path and link to map.txt in read mode
-        with open(path.join(gameFolder, 'map.txt'), 'rt') as f:
-            #for each line in map.txt append line to mapData list
-            for line in f:
-                self.mapData.append(line)
-        
+        self.map = Map(path.join(gameFolder, 'map2.txt'))
     
     def newGame(self):
         #start a new Game
@@ -44,7 +38,7 @@ class Game:
         
         self.walls = pg.sprite.Group()
         #enumerate row index position and tile data from list mapdata
-        for row, tiles in enumerate(self.mapData):
+        for row, tiles in enumerate(self.map.data):
             #enumerate index  of each column and data of each tile
             #this provides x and y position of each tile within mapData list
             for col, tile in enumerate(tiles):
@@ -52,9 +46,11 @@ class Game:
                 if tile == '1':
                     #spawn a wall at the position
                     Wall(self, col, row) 
-                if tile == 'p':
+                if tile == 'P':
                     #draw the player at tile 10 by 10
                     self.player = Player(self, col, row)
+        #spawn camera:
+        self.camera = Camera(self.map.width, self.map.height)
 
 
     def run(self):
@@ -75,7 +71,7 @@ class Game:
     def update(self):
         #Update game screen
         self.allSprites.update()
-    
+        self.camera.update(self.player)
     def events(self):
         #Process input (events)
         for event in pg.event.get():
@@ -89,13 +85,13 @@ class Game:
     def drawGrid(self):
         #draw vertical lines to the screen
         #draw lines from 0 to width in increments of tilesize
-        for x in range(0, width, tileSize):
+        for x in range(0, WIDTH, tileSize):
             #use pygame line method draw to screen in light grey
                 #draw from coordinates x,0 to x,height 
-            pg.draw.line(self.screen, lightGrey, (x, 0), (x, height))
+            pg.draw.line(self.screen, lightGrey, (x, 0), (x, HEIGHT))
         #draw horizontal lines
-        for y in range(0, height, tileSize):
-            pg.draw.line(self.screen, lightGrey, (0, y), (width, y))
+        for y in range(0, HEIGHT, tileSize):
+            pg.draw.line(self.screen, lightGrey, (0, y), (WIDTH, y))
     
     def draw(self):
         #Draw / render
@@ -103,7 +99,8 @@ class Game:
         #Draw grid
         self.drawGrid()
         #Draw sprites
-        self.allSprites.draw(self.screen)
+        for sprite in self.allSprites:
+            self.screen.blit(sprite.image, self.camera.apply(sprite))
         #After drawing always flip the display
         pg.display.flip()
     
