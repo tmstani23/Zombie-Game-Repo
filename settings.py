@@ -12,12 +12,14 @@ yellow = (255, 255, 0)
 
 #Game options/settings
 title = "Zombie Survival!"
-width = 1024
-height = 640
+WIDTH = 1024
+HEIGHT = 640
 fps = 60
 bgColor = darkGrey
 
 tileSize = 32
-gridWidth = width / tileSize
-gridHeight = height / tileSize
+gridWidth = WIDTH / tileSize
+gridHeight = HEIGHT / tileSize
 
+#Player settings
+playerSpeed = 250 
