@@ -17,9 +17,10 @@ HEIGHT = 640
 fps = 60
 bgColor = darkGrey
 
-tileSize = 32
+tileSize = 64
 gridWidth = WIDTH / tileSize
 gridHeight = HEIGHT / tileSize
 
 #Player settings
-playerSpeed = 250 
+playerSpeed = 300 
+PLAYER_IMG = 'manBlue_gun.png'
