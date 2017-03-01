@@ -30,7 +30,9 @@ class Game:
     def loadData(self):
         #create a variable that holds the path of the game files
         gameFolder = path.dirname(__file__)
-        self.map = Map(path.join(gameFolder, 'map2.txt'))
+        imgFolder = path.join(gameFolder, 'img')
+        self.map = Map(path.join(gameFolder, 'map4.txt'))
+        self.playerImg = pg.image.load(path.join(imgFolder, PLAYER_IMG)).convert_alpha()
     
     def newGame(self):
         #start a new Game
