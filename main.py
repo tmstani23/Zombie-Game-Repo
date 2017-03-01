@@ -32,7 +32,7 @@ class Game:
         gameFolder = path.dirname(__file__)
         imgFolder = path.join(gameFolder, 'img')
         self.map = Map(path.join(gameFolder, 'map4.txt'))
-        self.playerImg = pg.image.load(path.join(imgFolder, PLAYER_IMG)).convert_alpha()
+        self.player_img = pg.image.load(path.join(imgFolder, PLAYER_IMG)).convert_alpha()
     
     def newGame(self):
         #start a new Game
@@ -104,6 +104,7 @@ class Game:
         for sprite in self.allSprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         #After drawing always flip the display
+        #pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         pg.display.flip()
     
     def showStartScreen(self):
