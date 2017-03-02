@@ -96,6 +96,28 @@ class Player(pg.sprite.Sprite):
         self.wallCollision('y')
         self.rect.center = self.hit_rect.center
        
+class Mob(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        #create variable that holds all mob objects in a group
+        self.groups = game.allSprites, game.mobs
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.mob_img
+        self.rect = self.image.get_rect()
+        self.pos = vec(x, y) * tileSize
+        self.rect.center = self.pos
+
+    def update(self):
+        #save vector between mob and player and find
+            #angle between that vector and straight x vector
+        self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
+        #rotate the mob image by the rotation vector
+        self.image = pg.transform.rotate(self.game.mob_img, self.rot)
+        #get new mob rectangle
+        self.rect = self.image.get_rect()
+        #set center of rectangle to mob position
+        self.rect.center = self.pos
+
 
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -103,8 +125,7 @@ class Wall(pg.sprite.Sprite):
         self.groups = game.allSprites, game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = pg.Surface((tileSize, tileSize))
-        self.image.fill(green)
+        self.image = game.wall_img
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
