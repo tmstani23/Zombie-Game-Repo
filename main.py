@@ -31,14 +31,19 @@ class Game:
         #create a variable that holds the path of the game files
         gameFolder = path.dirname(__file__)
         imgFolder = path.join(gameFolder, 'img')
-        self.map = Map(path.join(gameFolder, 'map4.txt'))
-        self.playerImg = pg.image.load(path.join(imgFolder, PLAYER_IMG)).convert_alpha()
+        self.map = Map(path.join(gameFolder, 'map3.txt'))
+        self.player_img = pg.image.load(path.join(imgFolder, PLAYER_IMG)).convert_alpha()
+        self.mob_img = pg.image.load(path.join(imgFolder, MOB_IMG)).convert_alpha()
+        self.wall_img = pg.image.load(path.join(imgFolder, WALL_IMG)).convert_alpha()
+        self.wall_img = pg.transform.scale(self.wall_img, (tileSize, tileSize))
+
     
     def newGame(self):
         #start a new Game
         self.allSprites = pg.sprite.Group()
         
         self.walls = pg.sprite.Group()
+        self.mobs = pg.sprite.Group()
         #enumerate row index position and tile data from list mapdata
         for row, tiles in enumerate(self.map.data):
             #enumerate index  of each column and data of each tile
@@ -48,6 +53,9 @@ class Game:
                 if tile == '1':
                     #spawn a wall at the position
                     Wall(self, col, row) 
+                if tile == 'M':
+                    #spawn a mob at the position
+                    Mob(self, col, row) 
                 if tile == 'P':
                     #draw the player at tile 10 by 10
                     self.player = Player(self, col, row)
@@ -96,14 +104,16 @@ class Game:
             pg.draw.line(self.screen, lightGrey, (0, y), (WIDTH, y))
     
     def draw(self):
+        pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         #Draw / render
-        self.screen.fill(bgColor)
+        self.screen.fill(BGCOLOR)
         #Draw grid
-        self.drawGrid()
+        #self.drawGrid()
         #Draw sprites
         for sprite in self.allSprites:
             self.screen.blit(sprite.image, self.camera.apply(sprite))
         #After drawing always flip the display
+        #pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         pg.display.flip()
     
     def showStartScreen(self):
