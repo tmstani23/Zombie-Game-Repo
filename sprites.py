@@ -4,6 +4,37 @@ from tilemap import *
 vec = pg.math.Vector2
 
 
+def wallCollision(sprite, group, direction):
+        if direction == 'x':
+            #checks to see if sprite collides with wall object
+            #use result of collide_hit_rect instead of player rect
+            hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
+            if hits:
+                #if player sprite was moving to the right:
+                if sprite.vel.x > 0:
+                    #x coord = position of thing hit - center of hit rect
+                    sprite.pos.x = hits[0].rect.left - sprite.hit_rect.width / 2
+                #if player sprite was moving to the left:
+                if sprite.vel.x < 0:
+                    #x coord = position of thing hit + center of hit rect
+                    sprite.pos.x = hits[0].rect.right + sprite.hit_rect.width / 2
+                sprite.vel.x = 0
+                sprite.hit_rect.centerx = sprite.pos.x
+        if direction == 'y':
+            #checks to see if sprite collides with wall object
+            hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
+            if hits:
+                #if player sprite was moving up:
+                if sprite.vel.y > 0:
+                    #y coord = position of thing hit - center of hit rect
+                    sprite.pos.y = hits[0].rect.top - sprite.hit_rect.height / 2
+                #if player sprite was moving down:
+                if sprite.vel.y < 0:
+                    #x coord = position of thing hit + center of hit rect
+                    sprite.pos.y = hits[0].rect.bottom + sprite.hit_rect.height / 2
+                sprite.vel.y = 0
+                sprite.hit_rect.centery = sprite.pos.y
+
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.allSprites
@@ -44,36 +75,7 @@ class Player(pg.sprite.Sprite):
             self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
         
     
-    def wallCollision(self, direction):
-        if direction == 'x':
-            #checks to see if sprite collides with wall object
-            #use result of collide_hit_rect instead of player rect
-            hits = pg.sprite.spritecollide(self, self.game.walls, False, collide_hit_rect)
-            if hits:
-                #if player sprite was moving to the right:
-                if self.vel.x > 0:
-                    #x coord = position of thing hit - center of hit rect
-                    self.pos.x = hits[0].rect.left - self.hit_rect.width / 2
-                #if player sprite was moving to the left:
-                if self.vel.x < 0:
-                    #x coord = position of thing hit + center of hit rect
-                    self.pos.x = hits[0].rect.right + self.hit_rect.width / 2
-                self.vel.x = 0
-                self.hit_rect.centerx = self.pos.x
-        if direction == 'y':
-            #checks to see if sprite collides with wall object
-            hits = pg.sprite.spritecollide(self, self.game.walls, False, collide_hit_rect)
-            if hits:
-                #if player sprite was moving up:
-                if self.vel.y > 0:
-                    #y coord = position of thing hit - center of hit rect
-                    self.pos.y = hits[0].rect.top - self.hit_rect.height / 2
-                #if player sprite was moving down:
-                if self.vel.y < 0:
-                    #x coord = position of thing hit + center of hit rect
-                    self.pos.y = hits[0].rect.bottom + self.hit_rect.height / 2
-                self.vel.y = 0
-                self.hit_rect.centery = self.pos.y
+    
 
     def update(self):
         self.getKeys()
@@ -90,10 +92,10 @@ class Player(pg.sprite.Sprite):
         self.pos += self.vel * self.game.dt
         #set center of hit rect to player x position
         self.hit_rect.centerx = self.pos.x
-        self.wallCollision('x')
+        wallCollision(self, self.game.walls, 'x')
         #set center of hit rect to player y position
         self.hit_rect.centery = self.pos.y
-        self.wallCollision('y')
+        wallCollision(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
        
 class Mob(pg.sprite.Sprite):
@@ -104,8 +106,13 @@ class Mob(pg.sprite.Sprite):
         self.game = game
         self.image = game.mob_img
         self.rect = self.image.get_rect()
+        self.hit_rect = MOB_HIT_RECT.copy()
+        self.hit_rect.center = self.rect.center
         self.pos = vec(x, y) * tileSize
+        self.vel = vec(0, 0)
+        self.acc = vec(0, 0)
         self.rect.center = self.pos
+        self.rot = 0
 
     def update(self):
         #save vector between mob and player and find
@@ -117,6 +124,17 @@ class Mob(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         #set center of rectangle to mob position
         self.rect.center = self.pos
+        #acceleration variable based on mob speed and rotated to face player
+        self.acc = vec(MOB_SPEED, 0).rotate(-self.rot)
+        self.acc += self.vel * -1
+        self.vel += self.acc * self.game.dt
+        #position based on motion equation and game time
+        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
+        self.hit_rect.centerx = self.pos.x
+        wallCollision(self, self.game.walls, 'x')
+        self.hit_rect.centery = self.pos.y
+        wallCollision(self, self.game.walls, 'y')
+        self.rect.center = self.hit_rect.center
 
 
 class Wall(pg.sprite.Sprite):
