@@ -33,9 +33,10 @@ class Game:
         imgFolder = path.join(gameFolder, 'img')
         self.map = Map(path.join(gameFolder, 'map3.txt'))
         self.player_img = pg.image.load(path.join(imgFolder, PLAYER_IMG)).convert_alpha()
+        self.bullet_img = pg.image.load(path.join(imgFolder, BULLET_IMG)).convert_alpha()
         self.mob_img = pg.image.load(path.join(imgFolder, MOB_IMG)).convert_alpha()
         self.wall_img = pg.image.load(path.join(imgFolder, WALL_IMG)).convert_alpha()
-        self.wall_img = pg.transform.scale(self.wall_img, (tileSize, tileSize))
+        #self.wall_img = pg.transform.scale(self.wall_img, (tileSize, tileSize))
 
     
     def newGame(self):
@@ -44,6 +45,7 @@ class Game:
         
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
+        self.bullets = pg.sprite.Group()
         #enumerate row index position and tile data from list mapdata
         for row, tiles in enumerate(self.map.data):
             #enumerate index  of each column and data of each tile
@@ -82,6 +84,12 @@ class Game:
         #Update game screen
         self.allSprites.update()
         self.camera.update(self.player)
+        #Bullets hit mobs
+        #false/true - mobs dont disappear bullets do when hit
+        hits = pg.sprite.groupcollide(self.mobs, self.bullets, False, True)
+        for hit in hits:
+            hit.kill()
+    
     def events(self):
         #Process input (events)
         for event in pg.event.get():
