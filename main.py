@@ -50,7 +50,10 @@ class Game:
         #create a variable that holds the path of the game files
         gameFolder = path.dirname(__file__)
         imgFolder = path.join(gameFolder, 'img')
-        self.map = Map(path.join(gameFolder, 'map3.txt'))
+        mapFolder = path.join(gameFolder, 'map')
+        self.map = TiledMap(path.join(mapFolder, 'level1.tmx'))
+        self.map_img = self.map.make_map()
+        self.map_rect = self.map_img.get_rect()
         self.player_img = pg.image.load(path.join(imgFolder, PLAYER_IMG)).convert_alpha()
         self.bullet_img = pg.image.load(path.join(imgFolder, BULLET_IMG)).convert_alpha()
         self.mob_img = pg.image.load(path.join(imgFolder, MOB_IMG)).convert_alpha()
@@ -66,7 +69,7 @@ class Game:
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
         #enumerate row index position and tile data from list mapdata
-        for row, tiles in enumerate(self.map.data):
+        '''for row, tiles in enumerate(self.map.data):
             #enumerate index  of each column and data of each tile
             #this provides x and y position of each tile within mapData list
             for col, tile in enumerate(tiles):
@@ -79,9 +82,23 @@ class Game:
                     Mob(self, col, row) 
                 if tile == 'P':
                     #draw the player at tile 10 by 10
-                    self.player = Player(self, col, row)
+                    self.player = Player(self, col, row)'''
+        
+        #loop through objects in tmxdata list 
+        for tile_object in self.map.tmxdata.objects:
+            if tile_object.name == 'player':
+                #spawn player at object x and y
+                self.player = Player(self, tile_object.x, tile_object.y)
+            #spawn mob object:
+            if tile_object.name == 'zombie':
+                Mob(self, tile_object.x, tile_object.y)
+            if tile_object.name == 'wall':
+                #spawn unpassable wall object
+                Obstacle(self, tile_object.x, tile_object.y, 
+                           tile_object.width, tile_object.height)
         #spawn camera:
         self.camera = Camera(self.map.width, self.map.height)
+        self.draw_debug = False
 
 
     def run(self):
@@ -133,6 +150,10 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
+                #if player presses h key:
+                if event.key == pg.K_h:
+                    #set draw_debug to its opposite
+                    self.draw_debug = not self.draw_debug
 
     def drawGrid(self):
         #draw vertical lines to the screen
@@ -148,7 +169,10 @@ class Game:
     def draw(self):
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
         #Draw / render
-        self.screen.fill(BGCOLOR)
+        #self.screen.fill(BGCOLOR)
+        #draw map to screen:
+        self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
+        
         #Draw grid
         #self.drawGrid()
         #Draw sprites
@@ -157,6 +181,13 @@ class Game:
             if isinstance(sprite, Mob):
                 sprite.draw_health()        
             self.screen.blit(sprite.image, self.camera.apply(sprite))
+            #draw player hitbox:
+            if self.draw_debug:
+                pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(sprite.hit_rect), 1)
+        if self.draw_debug:
+            for wall in self.walls:
+                pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(wall.rect), 1)
+
         #After drawing always flip the display
         #pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         #Draw HUD functions:
