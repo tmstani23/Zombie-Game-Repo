@@ -83,11 +83,22 @@ class Game:
                 if tile == 'P':
                     #draw the player at tile 10 by 10
                     self.player = Player(self, col, row)'''
-        #spawn player:
-        self.player = Player(self, 5, 5)
         
+        #loop through objects in tmxdata list 
+        for tile_object in self.map.tmxdata.objects:
+            if tile_object.name == 'player':
+                #spawn player at object x and y
+                self.player = Player(self, tile_object.x, tile_object.y)
+            #spawn mob object:
+            if tile_object.name == 'zombie':
+                Mob(self, tile_object.x, tile_object.y)
+            if tile_object.name == 'wall':
+                #spawn unpassable wall object
+                Obstacle(self, tile_object.x, tile_object.y, 
+                           tile_object.width, tile_object.height)
         #spawn camera:
         self.camera = Camera(self.map.width, self.map.height)
+        self.draw_debug = False
 
 
     def run(self):
@@ -139,6 +150,10 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
+                #if player presses h key:
+                if event.key == pg.K_h:
+                    #set draw_debug to its opposite
+                    self.draw_debug = not self.draw_debug
 
     def drawGrid(self):
         #draw vertical lines to the screen
@@ -157,6 +172,7 @@ class Game:
         #self.screen.fill(BGCOLOR)
         #draw map to screen:
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
+        
         #Draw grid
         #self.drawGrid()
         #Draw sprites
@@ -165,6 +181,13 @@ class Game:
             if isinstance(sprite, Mob):
                 sprite.draw_health()        
             self.screen.blit(sprite.image, self.camera.apply(sprite))
+            #draw player hitbox:
+            if self.draw_debug:
+                pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(sprite.hit_rect), 1)
+        if self.draw_debug:
+            for wall in self.walls:
+                pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(wall.rect), 1)
+
         #After drawing always flip the display
         #pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         #Draw HUD functions:

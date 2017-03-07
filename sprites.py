@@ -49,7 +49,7 @@ class Player(pg.sprite.Sprite):
         self.hit_rect_center = self.rect.center
         #create velocity variable
         self.vel = vec(0, 0)
-        self.pos = vec(x, y) * tileSize
+        self.pos = vec(x, y) 
         #variable that holds player rotation 
         self.rot = 0
         self.last_shot = 0
@@ -121,7 +121,7 @@ class Mob(pg.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.hit_rect = MOB_HIT_RECT.copy()
         self.hit_rect.center = self.rect.center
-        self.pos = vec(x, y) * tileSize
+        self.pos = vec(x, y) 
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
         self.rect.center = self.pos
@@ -174,6 +174,7 @@ class Bullet(pg.sprite.Sprite):
         self.game = game
         self.image = game.bullet_img
         self.rect = self.image.get_rect()
+        self.hit_rect = self.rect
         self.pos = vec(pos)
         self.rect.center = pos
         spread = uniform(-GUN_SPREAD, GUN_SPREAD)
@@ -189,7 +190,6 @@ class Bullet(pg.sprite.Sprite):
         if pg.time.get_ticks() - self.spawn_time > BULLET_LIFETIME: 
             self.kill()
         
-
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         #create variable that holds all wall objects in a group
@@ -202,3 +202,15 @@ class Wall(pg.sprite.Sprite):
         self.y = y
         self.rect.x = x * tileSize
         self.rect.y = y * tileSize
+
+class Obstacle(pg.sprite.Sprite):
+    def __init__(self, game, x, y, w, h):
+        #create variable that holds all wall objects in a group
+        self.groups = game.walls
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.rect = pg.Rect(x, y, w, h)
+        self.x = x
+        self.y = y
+        self.rect.x = x 
+        self.rect.y = y 
