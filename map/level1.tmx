@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="87">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="100">
  <tileset firstgid="1" name="spritesheet_tiles" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
   <image source="../img/spritesheet_tiles.png" width="1988" height="1470"/>
  </tileset>
@@ -140,7 +140,6 @@
 </data>
  </layer>
  <objectgroup name="Obstacles">
-  <object id="1" name="player" x="336" y="208" width="32" height="32"/>
   <object id="2" name="wall" x="448" y="320" width="320" height="64"/>
   <object id="3" name="wall" x="448" y="960" width="960" height="64"/>
   <object id="4" name="wall" x="960" y="640" width="384" height="64"/>
@@ -175,12 +174,21 @@
   <object id="52" name="wall" x="1824" y="416" width="64" height="64"/>
   <object id="53" name="wall" x="1744" y="336" width="32" height="32"/>
   <object id="54" name="wall" x="1424" y="208" width="32" height="32"/>
-  <object id="55" name="wall" x="1680" y="-16" width="96" height="64"/>
+  <object id="55" name="wall" x="16" y="-16" width="1024" height="64"/>
   <object id="56" name="wall" x="1568" y="544" width="64" height="64"/>
   <object id="57" name="wall" x="400" y="784" width="32" height="32"/>
   <object id="58" name="wall" x="400" y="656" width="32" height="32"/>
   <object id="59" name="wall" x="400" y="528" width="32" height="32"/>
   <object id="60" name="wall" x="400" y="400" width="32" height="32"/>
   <object id="63" name="zombie" x="1184" y="464" width="32" height="32"/>
+  <object id="87" name="zombie" x="1616" y="720" width="32" height="32"/>
+  <object id="88" name="zombie" x="1712" y="704" width="32" height="32"/>
+  <object id="89" name="zombie" x="1744" y="608" width="32" height="32"/>
+  <object id="90" name="zombie" x="1728" y="832" width="32" height="32"/>
+  <object id="91" name="zombie" x="1584" y="848" width="32" height="32"/>
+  <object id="92" name="zombie" x="1504" y="736" width="32" height="32"/>
+  <object id="93" name="zombie" x="1856" y="752" width="32" height="32"/>
+  <object id="94" name="zombie" x="1872" y="576" width="32" height="32"/>
+  <object id="99" name="player" x="336" y="336" width="32" height="32"/>
  </objectgroup>
 </map>
