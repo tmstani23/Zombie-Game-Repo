@@ -48,22 +48,24 @@ class Game:
     
     def loadData(self):
         #create a variable that holds the path of the game files
-        gameFolder = path.dirname(__file__)
-        imgFolder = path.join(gameFolder, 'img')
-        mapFolder = path.join(gameFolder, 'map')
-        self.map = TiledMap(path.join(mapFolder, 'level1.tmx'))
+        game_folder = path.dirname(__file__)
+        img_folder = path.join(game_folder, 'img')
+        map_folder = path.join(game_folder, 'map')
+        self.map = TiledMap(path.join(map_folder, 'level1.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
-        self.player_img = pg.image.load(path.join(imgFolder, PLAYER_IMG)).convert_alpha()
-        self.bullet_img = pg.image.load(path.join(imgFolder, BULLET_IMG)).convert_alpha()
-        self.mob_img = pg.image.load(path.join(imgFolder, MOB_IMG)).convert_alpha()
-        self.wall_img = pg.image.load(path.join(imgFolder, WALL_IMG)).convert_alpha()
+        self.player_img = pg.image.load(path.join(img_folder, PLAYER_IMG)).convert_alpha()
+        self.bullet_img = pg.image.load(path.join(img_folder, BULLET_IMG)).convert_alpha()
+        self.mob_img = pg.image.load(path.join(img_folder, MOB_IMG)).convert_alpha()
+        self.wall_img = pg.image.load(path.join(img_folder, WALL_IMG)).convert_alpha()
         self.wall_img = pg.transform.scale(self.wall_img, (tileSize, tileSize))
-
+        self.gun_flashes = []
+        for img in MUZZLE_FLASHES:
+            self.gun_flashes.append(pg.image.load(path.join(img_folder, img)).convert_alpha())
     
     def newGame(self):
         #start a new Game
-        self.allSprites = pg.sprite.Group()
+        self.all_sprites = pg.sprite.LayeredUpdates()
         
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
@@ -118,7 +120,7 @@ class Game:
 
     def update(self):
         #Update game screen
-        self.allSprites.update()
+        self.all_sprites.update()
         self.camera.update(self.player)
         #Mob hits player:
         hits = pg.sprite.spritecollide(self.player, self.mobs, False, collide_hit_rect)
@@ -176,7 +178,7 @@ class Game:
         #Draw grid
         #self.drawGrid()
         #Draw sprites
-        for sprite in self.allSprites:
+        for sprite in self.all_sprites:
             #if sprite is a mob:
             if isinstance(sprite, Mob):
                 sprite.draw_health()        
