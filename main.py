@@ -41,7 +41,7 @@ class Game:
         self.clock = pg.time.Clock()
         #sets how long key should repeat when pressed
             #(how long to wait before repeat, length of repeat in ms)
-        pg.key.set_repeat(250, 100)
+        #pg.key.set_repeat(250, 100)
         self.loadData()
         #print current working directory to console
         print(path.dirname(__file__))
@@ -62,7 +62,10 @@ class Game:
         self.gun_flashes = []
         for img in MUZZLE_FLASHES:
             self.gun_flashes.append(pg.image.load(path.join(img_folder, img)).convert_alpha())
-    
+        self.item_images = {}
+        for item in ITEM_IMAGES:
+            self.item_images[item] = pg.image.load(path.join(img_folder, ITEM_IMAGES[item])).convert_alpha()
+
     def newGame(self):
         #start a new Game
         self.all_sprites = pg.sprite.LayeredUpdates()
@@ -70,6 +73,7 @@ class Game:
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
+        self.items = pg.sprite.Group()
         #enumerate row index position and tile data from list mapdata
         '''for row, tiles in enumerate(self.map.data):
             #enumerate index  of each column and data of each tile
@@ -88,16 +92,20 @@ class Game:
         
         #loop through objects in tmxdata list 
         for tile_object in self.map.tmxdata.objects:
+            obj_center = vec(tile_object.x + tile_object.width / 2, 
+                               tile_object.y + tile_object.height / 2)
             if tile_object.name == 'player':
                 #spawn player at object x and y
-                self.player = Player(self, tile_object.x, tile_object.y)
+                self.player = Player(self, obj_center.x, obj_center.y)
             #spawn mob object:
             if tile_object.name == 'zombie':
-                Mob(self, tile_object.x, tile_object.y)
+                Mob(self, obj_center.x, obj_center.y)
             if tile_object.name == 'wall':
                 #spawn unpassable wall object
                 Obstacle(self, tile_object.x, tile_object.y, 
                            tile_object.width, tile_object.height)
+            if tile_object.name in ['health']:
+                Item(self, obj_center, tile_object.name)
         #spawn camera:
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
@@ -122,6 +130,12 @@ class Game:
         #Update game screen
         self.all_sprites.update()
         self.camera.update(self.player)
+        #Player hits items:
+        hits = pg.sprite.spritecollide(self.player, self.items, False)
+        for hit in hits:
+            if hit.type == 'health' and self.player.health < PLAYER_HEALTH:
+                hit.kill()
+                self.player.add_health(HEALTH_PACK_AMOUNT)    
         #Mob hits player:
         hits = pg.sprite.spritecollide(self.player, self.mobs, False, collide_hit_rect)
         for hit in hits:

@@ -57,9 +57,6 @@ class Player(pg.sprite.Sprite):
         self.last_shot = 0
         self.health = PLAYER_HEALTH
 
-       
-       
-
     def getKeys(self):
         self.rot_speed = 0
         self.vel = vec(0, 0)
@@ -92,7 +89,6 @@ class Player(pg.sprite.Sprite):
                 self.vel = vec(-KICKBACK, 0).rotate(-self.rot)
                 MuzzleFlash(self.game, pos)
         
-    
     def update(self):
         self.getKeys()
         #update rotation
@@ -113,6 +109,11 @@ class Player(pg.sprite.Sprite):
         self.hit_rect.centery = self.pos.y
         wallCollision(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
+
+    def add_health(self, amount):
+        self.health += amount
+        if self.health > PLAYER_HEALTH:
+            self.health = PLAYER_HEALTH
        
 class Mob(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -227,8 +228,6 @@ class Wall(pg.sprite.Sprite):
 
 class Obstacle(pg.sprite.Sprite):
 
-
-
     def __init__(self, game, x, y, w, h):
         #create variable that holds all wall objects in a group
         self.groups = game.walls
@@ -257,3 +256,17 @@ class MuzzleFlash(pg.sprite.Sprite):
     def update(self):
         if pg.time.get_ticks() - self.spawn_time > FLASH_DURATION:
             self.kill()   
+
+class Item(pg.sprite.Sprite):
+    def __init__(self, game, pos, type):
+        self._layer = ITEMS_LAYER
+        self.game = game
+        self.groups = game.all_sprites, game.items
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.image = game.item_images[type]
+        self.rect = self.image.get_rect()
+        self.type = type
+        self.rect.center = pos
+        self.pos = pos
+
+       
