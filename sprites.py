@@ -1,8 +1,7 @@
 import pygame as pg
 from settings import *
 from tilemap import collide_hit_rect
-from random import uniform, choice, randint, random
-import pytweening as tween
+from random import uniform, choice, randint
 vec = pg.math.Vector2
 
 
@@ -123,7 +122,7 @@ class Mob(pg.sprite.Sprite):
         self.groups = game.all_sprites, game.mobs
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.mob_img.copy()
+        self.image = game.mob_img
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.hit_rect = MOB_HIT_RECT.copy()
@@ -135,7 +134,6 @@ class Mob(pg.sprite.Sprite):
         self.rot = 0
         self.health = MOB_HEALTH
         self.speed = choice(MOB_SPEEDS)
-        self.target = game.player
 
     def avoid_mobs(self):
         #iterate through all the mobs 
@@ -150,29 +148,28 @@ class Mob(pg.sprite.Sprite):
                     self.acc += dist.normalize()
 
     def update(self):
-        #save vector between mob and player
-        target_dist = self.target.pos - self.pos
-        #if the target distance is less than zombie detect radius:
-        if target_dist.length_squared() < DETECT_RADIUS**2:
-            #find angle between the distance vect and straight x vector
-            self.rot = target_dist.angle_to(vec(1, 0))
-            #rotate the mob image by the rotation vector
-            self.image = pg.transform.rotate(self.game.mob_img, self.rot)
-            #set center of rectangle to mob position
-            self.rect.center = self.pos
-            #acceleration variable rotated to face player
-            self.acc = vec(1, 0).rotate(-self.rot)
-            self.avoid_mobs()
-            self.acc.scale_to_length(self.speed)
-            self.acc += self.vel * -1
-            self.vel += self.acc * self.game.dt
-            #position based on motion equation and game time
-            self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
-            self.hit_rect.centerx = self.pos.x
-            wallCollision(self, self.game.walls, 'x')
-            self.hit_rect.centery = self.pos.y
-            wallCollision(self, self.game.walls, 'y')
-            self.rect.center = self.hit_rect.center
+        #save vector between mob and player and find
+            #angle between that vector and straight x vector
+        self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
+        #rotate the mob image by the rotation vector
+        self.image = pg.transform.rotate(self.game.mob_img, self.rot)
+        #get new mob rectangle
+        #self.rect = self.image.get_rect()
+        #set center of rectangle to mob position
+        self.rect.center = self.pos
+        #acceleration variable rotated to face player
+        self.acc = vec(1, 0).rotate(-self.rot)
+        self.avoid_mobs()
+        self.acc.scale_to_length(self.speed)
+        self.acc += self.vel * -1
+        self.vel += self.acc * self.game.dt
+        #position based on motion equation and game time
+        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
+        self.hit_rect.centerx = self.pos.x
+        wallCollision(self, self.game.walls, 'x')
+        self.hit_rect.centery = self.pos.y
+        wallCollision(self, self.game.walls, 'y')
+        self.rect.center = self.hit_rect.center
         if self.health <= 0:
             self.kill()
     
@@ -269,23 +266,7 @@ class Item(pg.sprite.Sprite):
         self.image = game.item_images[type]
         self.rect = self.image.get_rect()
         self.type = type
-        self.pos = pos
         self.rect.center = pos
-        self.tween = tween.easeInOutSine
-        self.step = 0
-        self.dir = 1
-
-    def update(self):
-        #bobbing motion
-        #calculate how far along in tween function shifted by half the value
-        offset = BOB_RANGE * (self.tween(self.step / BOB_RANGE) -0.5)
-        #add offset to rectangle's y position
-        self.rect.centery = self.pos.y + offset * self.dir
-        #increment the step by bob speed
-        self.step += BOB_SPEED
-        #if the range is reached reset the step to 0 and set opposite direction
-        if self.step > BOB_RANGE:
-            self.step = 0
-            self.dir *= -1
+        self.pos = pos
 
        

@@ -30,8 +30,8 @@ WALL_IMG = 'wallTile_367.png'
 
 #Player settings
 PLAYER_HEALTH = 100
-PLAYER_SPEED = 280
-PLAYER_ROT_SPEED = 200
+PLAYER_SPEED = 300 
+PLAYER_ROT_SPEED = 250
 PLAYER_IMG = 'manBlue_gun.png'
 PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)
 BARREL_OFFSET = vec(30, 10)
@@ -53,7 +53,6 @@ MOB_HEALTH = 100
 MOB_DAMAGE = 10
 MOB_KNOCKBACK = 20
 AVOID_RADIUS = 50
-DETECT_RADIUS = 400
 
 # Effects
 MUZZLE_FLASHES = ['whitePuff15.png', 'whitePuff16.png', 'whitePuff17.png',
@@ -71,5 +70,3 @@ ITEMS_LAYER = 1
 # Items
 ITEM_IMAGES = {'health': 'health_pack.png'}
 HEALTH_PACK_AMOUNT = 20
-BOB_RANGE = 15
-BOB_SPEED = 0.4
