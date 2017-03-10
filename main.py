@@ -1,8 +1,8 @@
-# Silverhawk rpg game:
 import pygame as pg
 from tilemap import *
 from os import path
 import sys
+import random
 #import all variables from settings.py file
     #so appending isn't necessary
 from settings import *
@@ -69,26 +69,10 @@ class Game:
     def newGame(self):
         #start a new Game
         self.all_sprites = pg.sprite.LayeredUpdates()
-        
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
         self.items = pg.sprite.Group()
-        #enumerate row index position and tile data from list mapdata
-        '''for row, tiles in enumerate(self.map.data):
-            #enumerate index  of each column and data of each tile
-            #this provides x and y position of each tile within mapData list
-            for col, tile in enumerate(tiles):
-                #if the tile contains a 1
-                if tile == '1':
-                    #spawn a wall at the position
-                    Wall(self, col, row) 
-                if tile == 'M':
-                    #spawn a mob at the position
-                    Mob(self, col, row) 
-                if tile == 'P':
-                    #draw the player at tile 10 by 10
-                    self.player = Player(self, col, row)'''
         
         #loop through objects in tmxdata list 
         for tile_object in self.map.tmxdata.objects:
@@ -157,30 +141,17 @@ class Game:
             hit.health -= BULLET_DAMAGE
             hit.vel = vec(0, 0)
     
-    def events(self):
-        #Process input (events)
-        for event in pg.event.get():
-            #Check for closing the window
-            if event.type == pg.QUIT:
-                self.quit()
-            if event.type == pg.KEYDOWN:
-                if event.key == pg.K_ESCAPE:
-                    self.quit()
-                #if player presses h key:
-                if event.key == pg.K_h:
-                    #set draw_debug to its opposite
-                    self.draw_debug = not self.draw_debug
-
+    
     def drawGrid(self):
         #draw vertical lines to the screen
         #draw lines from 0 to width in increments of tilesize
         for x in range(0, WIDTH, tileSize):
             #use pygame line method draw to screen in light grey
                 #draw from coordinates x,0 to x,height 
-            pg.draw.line(self.screen, lightGrey, (x, 0), (x, HEIGHT))
+            pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
         #draw horizontal lines
         for y in range(0, HEIGHT, tileSize):
-            pg.draw.line(self.screen, lightGrey, (0, y), (WIDTH, y))
+            pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
     
     def draw(self):
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
@@ -209,6 +180,21 @@ class Game:
         #Draw HUD functions:
         draw_player_health(self.screen, 10, 10, self.player.health / PLAYER_HEALTH)
         pg.display.flip()
+
+    def events(self):
+        #Process input (events)
+        for event in pg.event.get():
+            #Check for closing the window
+            if event.type == pg.QUIT:
+                self.quit()
+            if event.type == pg.KEYDOWN:
+                if event.key == pg.K_ESCAPE:
+                    self.quit()
+                #if player presses h key:
+                if event.key == pg.K_h:
+                    #set draw_debug to its opposite
+                    self.draw_debug = not self.draw_debug
+
     
     def showStartScreen(self):
         #game start screen
@@ -218,14 +204,9 @@ class Game:
         #show game over screen
         pass
 
-
-
-    
-    
-    
+# Create game object
 g = Game()
 g.showStartScreen()
-
 
 while True:
     g.newGame()
