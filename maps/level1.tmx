@@ -191,6 +191,6 @@
   <object id="93" name="zombie" x="1856" y="752" width="32" height="32"/>
   <object id="94" name="zombie" x="1872" y="576" width="32" height="32"/>
   <object id="99" name="health" x="848" y="912" width="32" height="32"/>
-  <object id="100" name="wall" x="16" y="0" width="1104" height="64"/>
+  <object id="100" name="shotgun" x="976" y="528" width="32" height="32"/>
  </objectgroup>
 </map>
