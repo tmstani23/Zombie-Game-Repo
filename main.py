@@ -115,14 +115,14 @@ class Game:
         for snd in ZOMBIE_HIT_SOUNDS:
             self.zombie_hit_sounds.append(pg.mixer.Sound(path.join(snd_folder, snd)))
 
-    def new(self):
+    def new(self, level):
         # initialize all variables and do all the setup for a new game
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
         self.items = pg.sprite.Group()
-        self.map = TiledMap(path.join(self.map_folder, 'level2.tmx'))
+        self.map = TiledMap(path.join(self.map_folder, level))
         self.map_img = self.map.make_map()
         self.map.rect = self.map_img.get_rect()
         for tile_object in self.map.tmxdata.objects:
@@ -261,12 +261,21 @@ class Game:
 
     def show_go_screen(self):
         self.screen.fill(BLACK)
-        self.draw_text("GAME OVER", self.title_font, 100, RED, 
+        if len(self.mobs) == 0:
+            self.draw_text("YOU WIN!", self.title_font, 100, RED, 
                        WIDTH / 2, HEIGHT / 2, align="center")
-        self.draw_text("Press a key to start", self.title_font, 75, WHITE, 
-                       WIDTH / 2, HEIGHT * 3/4, align="center")
+             
+        else:
+            self.draw_text("GAME OVER", self.title_font, 100, RED, 
+                        WIDTH / 2, HEIGHT / 2, align="center")
+        
+        self.draw_text("Press any key to continue or q to quit", self.title_font, 50, WHITE, 
+                        WIDTH / 2, HEIGHT * 3/4, align="center")
+            
         pg.display.flip()
         self.wait_for_key()
+       
+    
     def wait_for_key(self):
         pg.event.wait()
         waiting = True
@@ -277,13 +286,17 @@ class Game:
                     waiting = False
                     self.quit()
                 if event.type == pg.KEYUP:
-                    waiting = False
+                    if event.key == pg.K_q:
+                        waiting = False
+                        self.quit()
+                    else:
+                        waiting = False
         
 
 # create the game object
 g = Game()
 g.show_start_screen()
 while True:
-    g.new()
+    g.new('level1.tmx')
     g.run()
     g.show_go_screen()
