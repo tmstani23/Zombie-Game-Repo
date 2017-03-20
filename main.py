@@ -25,6 +25,9 @@ def draw_player_health(surf, x, y, pct):
     pg.draw.rect(surf, col, fill_rect)
     pg.draw.rect(surf, WHITE, outline_rect, 2)
 
+
+
+
 class Game:
     def __init__(self):
         pg.mixer.pre_init(44100, -16, 1, 2048)
@@ -33,6 +36,23 @@ class Game:
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         self.load_data()
+    
+    def level_select(self, level):
+        self.current_level = level
+        print(level)
+        running = True
+        while running:
+            #add final endgame screen
+            if self.current_level == 2:
+                #here 2 is the level
+                g.new('level2.tmx', 2)
+                g.run()
+                g.show_go_screen(3)
+            #check this code:
+            if self.current_level == 3:
+                g.new('level3.tmx', 3)
+                g.run()
+                g.show_go_screen(4)
     
     def draw_text(self, text, font_name, size, color, x, y, align="nw"):
         font = pg.font.Font(font_name, size)
@@ -115,14 +135,15 @@ class Game:
         for snd in ZOMBIE_HIT_SOUNDS:
             self.zombie_hit_sounds.append(pg.mixer.Sound(path.join(snd_folder, snd)))
 
-    def new(self, level):
+    def new(self, t_map, level):
         # initialize all variables and do all the setup for a new game
+        self.current_level = level
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
         self.items = pg.sprite.Group()
-        self.map = TiledMap(path.join(self.map_folder, level))
+        self.map = TiledMap(path.join(self.map_folder, t_map))
         self.map_img = self.map.make_map()
         self.map.rect = self.map_img.get_rect()
         for tile_object in self.map.tmxdata.objects:
@@ -185,7 +206,10 @@ class Game:
         for hit in hits:
             if random() < 0.7:
                 choice(self.player_hit_sounds).play()
-            self.player.health -= MOB_DAMAGE
+            if self.current_level == 2:
+                self.player.health -= MOB_DAMAGE_HARD 
+            else: 
+                self.player.health -= MOB_DAMAGE
             hit.vel = vec(0, 0)
             if self.player.health <= 0:
                 self.playing = False
@@ -259,24 +283,36 @@ class Game:
     def show_start_screen(self):
         pass
 
-    def show_go_screen(self):
+    def show_go_screen(self, level):
         self.screen.fill(BLACK)
         if len(self.mobs) == 0:
-            self.draw_text("YOU WIN!", self.title_font, 100, RED, 
-                       WIDTH / 2, HEIGHT / 2, align="center")
-             
+            if level == 2:
+                self.draw_text("YOU WIN!", self.title_font, 100, RED, 
+                        WIDTH / 2, HEIGHT / 2, align="center")
+                self.draw_text("Press c key to continue or q to quit", self.title_font, 50, WHITE, 
+                            WIDTH / 2, HEIGHT * 3/4, align="center")
+            if level == 3:
+                self.draw_text("YOU WIN!", self.title_font, 100, RED, 
+                        WIDTH / 2, HEIGHT / 2, align="center")
+                self.draw_text("Press c to continue or q to quit", self.title_font, 50, WHITE, 
+                            WIDTH / 2, HEIGHT * 3/4, align="center")
+            if level == 4:
+                self.draw_text("YOU WIN!", self.title_font, 100, RED, 
+                        WIDTH / 2, HEIGHT / 2, align="center")
+                self.draw_text("Press q to quit", self.title_font, 50, WHITE, 
+                            WIDTH / 2, HEIGHT * 3/4, align="center")
         else:
             self.draw_text("GAME OVER", self.title_font, 100, RED, 
                         WIDTH / 2, HEIGHT / 2, align="center")
         
-        self.draw_text("Press any key to continue or q to quit", self.title_font, 50, WHITE, 
+            self.draw_text("Press any key to restart or q to quit", self.title_font, 50, WHITE, 
                         WIDTH / 2, HEIGHT * 3/4, align="center")
             
         pg.display.flip()
-        self.wait_for_key()
+        self.wait_for_key(level)
        
     
-    def wait_for_key(self):
+    def wait_for_key(self, level):
         pg.event.wait()
         waiting = True
         while waiting:
@@ -286,6 +322,17 @@ class Game:
                     waiting = False
                     self.quit()
                 if event.type == pg.KEYUP:
+                    if event.key == pg.K_c:
+                        if len(self.mobs) == 0: 
+                            if level == 4:
+                                self.quit()
+                            if level == 3:
+                                self.level_select(3)    
+                            if level == 2:
+                                self.level_select(2)
+                            else:
+                                waiting = False
+                            waiting = False
                     if event.key == pg.K_q:
                         waiting = False
                         self.quit()
@@ -296,7 +343,9 @@ class Game:
 # create the game object
 g = Game()
 g.show_start_screen()
+
+#probably need to add a second while loop that runs after the first finishes
 while True:
-    g.new('level1.tmx')
+    g.new('level1.tmx', 1)
     g.run()
-    g.show_go_screen()
+    g.show_go_screen(2)
