@@ -14,7 +14,7 @@ CYAN = (0, 255, 255)
 
 # game settings
 WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 768  # 16 * 48 or 32 * 24 or 64 * 12
+HEIGHT = 448  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
 TITLE = "Tilemap Demo"
 BGCOLOR = BROWN
@@ -59,6 +59,7 @@ MOB_SPEEDS = [150, 100, 75, 125]
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
 MOB_HEALTH = 100
 MOB_DAMAGE = 10
+MOB_DAMAGE_HARD = 30
 MOB_KNOCKBACK = 20
 AVOID_RADIUS = 50
 DETECT_RADIUS = 400
@@ -66,11 +67,11 @@ DETECT_RADIUS = 400
 # Effects
 MUZZLE_FLASHES = ['whitePuff15.png', 'whitePuff16.png', 'whitePuff17.png',
                   'whitePuff18.png']
-SPLAT = 'splat green.png'
+SPLAT = 'splat red.png'
 FLASH_DURATION = 50
 DAMAGE_ALPHA = [i for i in range(0, 255, 55)]
-NIGHT_COLOR = (20, 20, 20)
-LIGHT_RADIUS = (500, 500)
+NIGHT_COLOR = (25, 25, 25)
+LIGHT_RADIUS = (600, 600)
 LIGHT_MASK = "light_350_med.png"
 
 # Layers

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="101">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="30" tilewidth="64" tileheight="64" nextobjectid="102">
  <tileset firstgid="1" name="spritesheet_tiles" tilewidth="64" tileheight="64" spacing="10" tilecount="540" columns="27">
   <image source="../img/spritesheet_tiles.png" width="1988" height="1470"/>
  </tileset>
@@ -166,7 +166,6 @@
   <object id="37" name="wall" x="1296" y="704" width="48" height="48"/>
   <object id="38" name="wall" x="1280" y="384" width="16" height="256"/>
   <object id="40" name="zombie" x="784" y="208" width="32" height="32"/>
-  <object id="42" name="zombie" x="1072" y="816" width="32" height="32"/>
   <object id="46" name="wall" x="784" y="1232" width="32" height="32"/>
   <object id="47" name="wall" x="1104" y="1296" width="32" height="32"/>
   <object id="48" name="wall" x="608" y="1504" width="64" height="64"/>
@@ -182,15 +181,7 @@
   <object id="59" name="wall" x="400" y="528" width="32" height="32"/>
   <object id="60" name="wall" x="400" y="400" width="32" height="32"/>
   <object id="63" name="zombie" x="1184" y="464" width="32" height="32"/>
-  <object id="87" name="zombie" x="1616" y="720" width="32" height="32"/>
-  <object id="88" name="zombie" x="1712" y="704" width="32" height="32"/>
-  <object id="89" name="zombie" x="1744" y="608" width="32" height="32"/>
-  <object id="90" name="zombie" x="1728" y="832" width="32" height="32"/>
-  <object id="91" name="zombie" x="1584" y="848" width="32" height="32"/>
-  <object id="92" name="zombie" x="1504" y="736" width="32" height="32"/>
-  <object id="93" name="zombie" x="1856" y="752" width="32" height="32"/>
-  <object id="94" name="zombie" x="1872" y="576" width="32" height="32"/>
   <object id="99" name="health" x="848" y="912" width="32" height="32"/>
-  <object id="100" name="shotgun" x="976" y="528" width="32" height="32"/>
+  <object id="101" name="wall" x="0" y="0" width="1728" height="16"/>
  </objectgroup>
 </map>
