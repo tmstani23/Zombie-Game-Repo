@@ -14,7 +14,7 @@ CYAN = (0, 255, 255)
 
 # game settings
 WIDTH = 1024   # 16 * 64 or 32 * 32 or 64 * 16
-HEIGHT = 448  # 16 * 48 or 32 * 24 or 64 * 12
+HEIGHT = 468  # 16 * 48 or 32 * 24 or 64 * 12
 FPS = 60
 TITLE = "Tilemap Demo"
 BGCOLOR = BROWN
@@ -37,7 +37,7 @@ BARREL_OFFSET = vec(30, 10)
 BULLET_IMG = 'bullet.png'
 WEAPONS = {}
 WEAPONS['pistol'] = {'bullet_speed': 500,
-                     'bullet_lifetime': 1000,
+                     'bullet_lifetime': 450,
                      'rate': 250,
                      'kickback': 200,
                      'spread': 5,
@@ -45,7 +45,7 @@ WEAPONS['pistol'] = {'bullet_speed': 500,
                      'bullet_size': 'lg',
                      'bullet_count': 1}
 WEAPONS['shotgun'] = {'bullet_speed': 400,
-                      'bullet_lifetime': 500,
+                      'bullet_lifetime': 400,
                       'rate': 900,
                       'kickback': 300,
                       'spread': 20,
@@ -55,14 +55,14 @@ WEAPONS['shotgun'] = {'bullet_speed': 400,
 
 # Mob settings
 MOB_IMG = 'zombie1_hold.png'
-MOB_SPEEDS = [150, 100, 75, 125]
+MOB_SPEEDS = [150, 100, 110, 125]
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
 MOB_HEALTH = 100
-MOB_DAMAGE = 10
+MOB_DAMAGE = 15
 MOB_DAMAGE_HARD = 30
 MOB_KNOCKBACK = 20
 AVOID_RADIUS = 50
-DETECT_RADIUS = 400
+DETECT_RADIUS = 275
 
 # Effects
 MUZZLE_FLASHES = ['whitePuff15.png', 'whitePuff16.png', 'whitePuff17.png',
