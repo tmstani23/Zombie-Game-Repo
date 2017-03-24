@@ -25,35 +25,15 @@ def draw_player_health(surf, x, y, pct):
     pg.draw.rect(surf, col, fill_rect)
     pg.draw.rect(surf, WHITE, outline_rect, 2)
 
-
-
-
 class Game:
-    def __init__(self):
+    def __init__(self,):
         pg.mixer.pre_init(44100, -16, 1, 2048)
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         self.load_data()
-    
-    def level_select(self, level):
-        self.current_level = level
-        print(level)
-        running = True
-        while running:
-            #add final endgame screen
-            if self.current_level == 2:
-                #here 2 is the level
-                g.new('level2.tmx', 2)
-                g.run()
-                g.show_go_screen(3)
-            #check this code:
-            if self.current_level == 3:
-                g.new('level3.tmx', 3)
-                g.run()
-                g.show_go_screen(4)
-    
+        
     def draw_text(self, text, font_name, size, color, x, y, align="nw"):
         font = pg.font.Font(font_name, size)
         text_surface = font.render(text, True, color)
@@ -137,7 +117,7 @@ class Game:
 
     def new(self, t_map, level):
         # initialize all variables and do all the setup for a new game
-        self.current_level = level
+        self.current_level = level - 1
         self.all_sprites = pg.sprite.LayeredUpdates()
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
@@ -280,32 +260,96 @@ class Game:
                     self.paused = not self.paused
                 if event.key == pg.K_n:
                     self.night = not self.night
-    def show_start_screen(self):
-        pass
-
+    
+    def level_select(self, level):
+        print(level)
+        running = True
+        
+        while running:
+            if level == 1:
+                level += 1
+                g.new('level1.tmx', level)
+                g.run()
+                g.show_go_screen(level)
+            #add final endgame screen
+            if level == 2:
+                level += 1
+                g.new('level2.tmx', level)
+                g.run()
+                g.show_go_screen(level)
+            #check this code:
+            if level == 3:
+                level += 1
+                g.new('level3.tmx', level)
+                g.run()
+                g.show_go_screen(level)
+    
+    def show_start_screen(self, level):
+        self.s_screen = True
+        s_screen = self.s_screen
+        self.go_screen = False
+        self.screen.fill(BLACK)
+        
+        if level == 1:
+            #set mobs to 30 here to pass the mob length check in wait_for_key function
+            #self.mobs = ["placeholder"]
+            self.draw_text("Zombie Crawl", self.title_font, 120, RED, 
+                       WIDTH / 2, HEIGHT * 1/6, align="center")
+            self.draw_text("Controls - Use space to shoot and p to pause.", self.title_font, 30, WHITE, 
+                       WIDTH / 2, HEIGHT * 2/6, align="center")
+            self.draw_text("Use w/a/s/d or up/down/left/right for movement.", self.title_font, 30, WHITE, 
+                       WIDTH / 2, HEIGHT / 2, align="center")
+            self.draw_text("Kill all the zombies to win.", self.title_font, 30, WHITE, 
+                       WIDTH / 2, HEIGHT * 4/6, align="center")
+            self.draw_text("Press c to continue or q to quit.", self.title_font, 40, WHITE, 
+                       WIDTH / 2, HEIGHT * 5/6, align="center")
+        if level == 2:
+            self.draw_text("Welcome to level " + str(level), self.title_font, 100, RED, 
+                       WIDTH / 2, HEIGHT * 2/6, align="center")
+            self.draw_text("This level begins in night mode and the mobs are more difficult.", self.title_font, 30, WHITE, 
+                       WIDTH / 2, HEIGHT / 2, align="center")
+            self.draw_text("Kill all the zombies to win.", self.title_font, 30, WHITE, 
+                       WIDTH / 2, HEIGHT * 4/6, align="center")
+            self.draw_text("Press c key to continue or q to quit.", self.title_font, 40, WHITE, 
+                       WIDTH / 2, HEIGHT * 5/6, align="center")
+        if level == 3:
+            self.draw_text("Welcome to level " + str(level), self.title_font, 100, RED, 
+                       WIDTH / 2, HEIGHT * 2/6, align="center")
+            self.draw_text("This is the final level.  The mobs faster and more difficult.", self.title_font, 30, WHITE, 
+                       WIDTH / 2, HEIGHT /2, align="center")
+            self.draw_text("Kill all the zombies to win.", self.title_font, 30, WHITE, 
+                       WIDTH / 2, HEIGHT * 4/6, align="center")
+            self.draw_text("Press c key to continue or q to quit.", self.title_font, 40, WHITE, 
+                       WIDTH / 2, HEIGHT * 5/6, align="center")
+        
+        pg.display.flip()
+        self.wait_for_key(level)
+    
     def show_go_screen(self, level):
+        self.go_screen = True
+        self.s_screen = False
         self.screen.fill(BLACK)
         if len(self.mobs) == 0:
             if level == 2:
-                self.draw_text("YOU WIN!", self.title_font, 100, RED, 
+                self.draw_text("YOU WIN!", self.title_font, 120, RED, 
                         WIDTH / 2, HEIGHT / 2, align="center")
-                self.draw_text("Press c key to continue or q to quit", self.title_font, 50, WHITE, 
-                            WIDTH / 2, HEIGHT * 3/4, align="center")
+                self.draw_text("Press c key to continue - r key to restart current level - or q to quit", self.title_font, 20, WHITE, 
+                            WIDTH / 2, HEIGHT * 4/6, align="center")
             if level == 3:
-                self.draw_text("YOU WIN!", self.title_font, 100, RED, 
+                self.draw_text("YOU WIN!", self.title_font, 120, RED, 
                         WIDTH / 2, HEIGHT / 2, align="center")
-                self.draw_text("Press c to continue or q to quit", self.title_font, 50, WHITE, 
-                            WIDTH / 2, HEIGHT * 3/4, align="center")
+                self.draw_text("Press c key to continue - r key to restart current level - or q to quit", self.title_font, 20, WHITE, 
+                            WIDTH / 2, HEIGHT * 4/6, align="center")
             if level == 4:
-                self.draw_text("YOU WIN!", self.title_font, 100, RED, 
+                self.draw_text("YOU WIN!", self.title_font, 120, RED, 
                         WIDTH / 2, HEIGHT / 2, align="center")
-                self.draw_text("Press q to quit", self.title_font, 50, WHITE, 
-                            WIDTH / 2, HEIGHT * 3/4, align="center")
+                self.draw_text("Press q to quit or r key to restart current level", self.title_font, 20, WHITE, 
+                            WIDTH / 2, HEIGHT * 4/6, align="center")
         else:
-            self.draw_text("GAME OVER", self.title_font, 100, RED, 
+            self.draw_text("GAME OVER", self.title_font, 140, RED, 
                         WIDTH / 2, HEIGHT / 2, align="center")
         
-            self.draw_text("Press any key to restart or q to quit", self.title_font, 50, WHITE, 
+            self.draw_text("Press r key to restart or q to quit", self.title_font, 40, WHITE, 
                         WIDTH / 2, HEIGHT * 3/4, align="center")
             
         pg.display.flip()
@@ -322,30 +366,58 @@ class Game:
                     waiting = False
                     self.quit()
                 if event.type == pg.KEYUP:
-                    if event.key == pg.K_c:
-                        if len(self.mobs) == 0: 
-                            if level == 4:
-                                self.quit()
-                            if level == 3:
-                                self.level_select(3)    
-                            if level == 2:
-                                self.level_select(2)
-                            else:
-                                waiting = False
+                    if self.s_screen == True:
+                        if event.key == pg.K_c:
+                            try:
+                                if len(self.mobs) == 0: 
+                                    if level == 4:
+                                        self.quit()
+                                    if level == 3:
+                                        g.level_select(level)    
+                                    if level == 2:
+                                        g.level_select(level)
+                                        waiting = False
+                            except:
+                                if level == 1:
+                                    g.level_select(level)
+                                    waiting = False
+                        if event.key == pg.K_q:
                             waiting = False
-                    if event.key == pg.K_q:
-                        waiting = False
-                        self.quit()
-                    else:
-                        waiting = False
-        
+                            self.quit()
+                        
+                    elif self.go_screen == True:
+                        if event.key == pg.K_c:
+                            try:
+                                if len(self.mobs) == 0: 
+                                    if level == 4:
+                                        self.quit()
+                                    if level == 3:
+                                        g.show_start_screen(level)    
+                                    if level == 2:
+                                        g.show_start_screen(level)
+                                        waiting = False
+                            except:
+                                if level == 1:
+                                    g.level_select(level)
+                                    waiting = False
+                        if event.key == pg.K_q:
+                            waiting = False
+                            self.quit()
+                        else:
+                            if event.key == pg.K_r:
+                                waiting = False
+                                g.level_select(level - 1)
+                               
+
+
+                    
 
 # create the game object
 g = Game()
-g.show_start_screen()
+g.show_start_screen(1)
 
-#probably need to add a second while loop that runs after the first finishes
-while True:
-    g.new('level1.tmx', 1)
-    g.run()
-    g.show_go_screen(2)
+#while True:
+    
+    #g.new('level1.tmx', 1)
+    #g.run()
+    #g.show_go_screen(1, 2)

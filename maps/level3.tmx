@@ -140,7 +140,7 @@
 </data>
  </layer>
  <objectgroup name="Obstacles">
-  <object id="1" name="player" x="1616" y="1168" width="32" height="32"/>
+  <object id="1" name="player" x="2848" y="192" width="32" height="32"/>
   <object id="2" name="wall" x="448" y="320" width="320" height="64"/>
   <object id="3" name="wall" x="448" y="960" width="960" height="64"/>
   <object id="4" name="wall" x="960" y="640" width="384" height="64"/>
@@ -185,7 +185,7 @@
   <object id="92" name="zombie" x="1504" y="736" width="32" height="32"/>
   <object id="94" name="zombie" x="1872" y="576" width="32" height="32"/>
   <object id="99" name="health" x="848" y="912" width="32" height="32"/>
-  <object id="100" name="shotgun" x="1888" y="1040" width="32" height="32"/>
+  <object id="100" name="shotgun" x="2704" y="272" width="32" height="32"/>
   <object id="112" name="pistol" x="2800" y="912" width="32" height="32"/>
   <object id="113" name="wall" x="2368" y="576" width="256" height="64"/>
   <object id="115" name="wall" x="2368" y="800" width="64" height="32"/>
