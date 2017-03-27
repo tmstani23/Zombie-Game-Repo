@@ -250,6 +250,5 @@
   <object id="172" name="zombie" x="912" y="528" width="32" height="32"/>
   <object id="173" name="zombie" x="1120" y="880" width="32" height="32"/>
   <object id="174" name="wall" x="2336" y="736" width="64" height="64"/>
-  <object id="175" name="shotgun" x="2384" y="1424" width="16" height="16"/>
  </objectgroup>
 </map>

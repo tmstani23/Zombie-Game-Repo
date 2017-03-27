@@ -187,6 +187,8 @@ class Game:
             if random() < 0.7:
                 choice(self.player_hit_sounds).play()
             if self.current_level == 2:
+                self.player.health -= MOB_DAMAGE_MED
+            if self.current_level == 3:
                 self.player.health -= MOB_DAMAGE_HARD 
             else: 
                 self.player.health -= MOB_DAMAGE
@@ -274,7 +276,7 @@ class Game:
             #add final endgame screen
             if level == 2:
                 level += 1
-                g.new('level2.tmx', level)
+                g.new('l2.tmx', level)
                 g.run()
                 g.show_go_screen(level)
             #check this code:
