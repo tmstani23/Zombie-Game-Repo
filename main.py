@@ -182,13 +182,14 @@ class Game:
                 self.effects_sounds['gun_pickup'].play()
                 self.player.weapon = 'pistol'
         # mobs hit player
+        #check out the video on this section...
         hits = pg.sprite.spritecollide(self.player, self.mobs, False, collide_hit_rect)
         for hit in hits:
             if random() < 0.7:
                 choice(self.player_hit_sounds).play()
             if self.current_level == 2:
                 self.player.health -= MOB_DAMAGE_MED
-            if self.current_level == 3:
+            elif self.current_level == 3:
                 self.player.health -= MOB_DAMAGE_HARD 
             else: 
                 self.player.health -= MOB_DAMAGE
@@ -371,7 +372,7 @@ class Game:
                     if self.s_screen == True:
                         if event.key == pg.K_c:
                             try:
-                                if len(self.mobs) == 0: 
+                                #if len(self.mobs) == 0: 
                                     if level == 4:
                                         self.quit()
                                     if level == 3:
@@ -416,7 +417,7 @@ class Game:
 
 # create the game object
 g = Game()
-g.show_start_screen(1)
+g.show_start_screen(3)
 
 #while True:
     
