@@ -141,7 +141,11 @@ class Game:
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
         self.paused = False
-        self.night = False
+        
+        if self.current_level == 2 or 3:
+            self.night = True
+        else:
+            self.night = False
         self.effects_sounds['level_start'].play()
 
     def run(self):
@@ -318,7 +322,7 @@ class Game:
         if level == 3:
             self.draw_text("Welcome to level " + str(level), self.title_font, 100, RED, 
                        WIDTH / 2, HEIGHT * 2/6, align="center")
-            self.draw_text("This is the final level.  The mobs faster and more difficult.", self.title_font, 30, WHITE, 
+            self.draw_text("This is the final level.  This level begins in night mode and the mobs are more difficult.", self.title_font, 20, WHITE, 
                        WIDTH / 2, HEIGHT /2, align="center")
             self.draw_text("Kill all the zombies to win.", self.title_font, 30, WHITE, 
                        WIDTH / 2, HEIGHT * 4/6, align="center")

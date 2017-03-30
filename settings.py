@@ -33,15 +33,16 @@ PLAYER_IMG = 'manBlue_gun.png'
 PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)
 BARREL_OFFSET = vec(30, 10)
 
+
 #Weapon settings
 BULLET_IMG = 'bullet.png'
 WEAPONS = {}
-WEAPONS['pistol'] = {'bullet_speed': 500,
+WEAPONS['pistol'] = {'bullet_speed': 600,
                      'bullet_lifetime': 450,
                      'rate': 250,
                      'kickback': 200,
                      'spread': 5,
-                     'damage': 10,
+                     'damage': 20,
                      'bullet_size': 'lg',
                      'bullet_count': 1}
 WEAPONS['shotgun'] = {'bullet_speed': 400,
@@ -49,18 +50,18 @@ WEAPONS['shotgun'] = {'bullet_speed': 400,
                       'rate': 900,
                       'kickback': 300,
                       'spread': 20,
-                      'damage': 5,
+                      'damage': 8,
                       'bullet_size': 'sm',
                       'bullet_count': 12}
 
 # Mob settings
 MOB_IMG = 'zombie1_hold.png'
-MOB_SPEEDS = [150, 100, 110, 125]
+MOB_SPEEDS = [135, 100, 110, 125]
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
 MOB_HEALTH = 100
 MOB_DAMAGE = 10
-MOB_DAMAGE_MED = 20
-MOB_DAMAGE_HARD = 30
+MOB_DAMAGE_MED = 15
+MOB_DAMAGE_HARD = 20
 MOB_KNOCKBACK = 20
 AVOID_RADIUS = 50
 DETECT_RADIUS = 275
@@ -87,7 +88,7 @@ ITEMS_LAYER = 1
 ITEM_IMAGES = {'health': 'health_pack.png',
                'shotgun': 'obj_shotgun.png',
                'pistol': 'weapon_gun.png'}
-HEALTH_PACK_AMOUNT = 20
+HEALTH_PACK_AMOUNT = 30
 BOB_RANGE = 15
 BOB_SPEED = 0.4
 
