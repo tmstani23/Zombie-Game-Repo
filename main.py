@@ -141,7 +141,11 @@ class Game:
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
         self.paused = False
-        self.night = False
+        
+        if self.current_level == 2 or 3:
+            self.night = True
+        else:
+            self.night = False
         self.effects_sounds['level_start'].play()
 
     def run(self):
@@ -182,13 +186,14 @@ class Game:
                 self.effects_sounds['gun_pickup'].play()
                 self.player.weapon = 'pistol'
         # mobs hit player
+        #check out the video on this section...
         hits = pg.sprite.spritecollide(self.player, self.mobs, False, collide_hit_rect)
         for hit in hits:
             if random() < 0.7:
                 choice(self.player_hit_sounds).play()
             if self.current_level == 2:
                 self.player.health -= MOB_DAMAGE_MED
-            if self.current_level == 3:
+            elif self.current_level == 3:
                 self.player.health -= MOB_DAMAGE_HARD 
             else: 
                 self.player.health -= MOB_DAMAGE
@@ -317,7 +322,7 @@ class Game:
         if level == 3:
             self.draw_text("Welcome to level " + str(level), self.title_font, 100, RED, 
                        WIDTH / 2, HEIGHT * 2/6, align="center")
-            self.draw_text("This is the final level.  The mobs faster and more difficult.", self.title_font, 30, WHITE, 
+            self.draw_text("This is the final level.  This level begins in night mode and the mobs are more difficult.", self.title_font, 20, WHITE, 
                        WIDTH / 2, HEIGHT /2, align="center")
             self.draw_text("Kill all the zombies to win.", self.title_font, 30, WHITE, 
                        WIDTH / 2, HEIGHT * 4/6, align="center")
@@ -371,7 +376,7 @@ class Game:
                     if self.s_screen == True:
                         if event.key == pg.K_c:
                             try:
-                                if len(self.mobs) == 0: 
+                                #if len(self.mobs) == 0: 
                                     if level == 4:
                                         self.quit()
                                     if level == 3:
@@ -416,7 +421,7 @@ class Game:
 
 # create the game object
 g = Game()
-g.show_start_screen(1)
+g.show_start_screen(3)
 
 #while True:
     
