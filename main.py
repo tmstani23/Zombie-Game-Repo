@@ -26,8 +26,8 @@ def draw_player_health(surf, x, y, pct):
     pg.draw.rect(surf, WHITE, outline_rect, 2)
 
 class Game:
-    def __init__(self,):
-        pg.mixer.pre_init(44100, -16, 1, 2048)
+    def __init__(self):
+        pg.mixer.pre_init(44100, 16, 2, 4096)
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
@@ -136,7 +136,7 @@ class Game:
             if tile_object.name == 'wall':
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
-            if tile_object.name in ['health', 'shotgun', 'pistol']:
+            if tile_object.name in ['health', 'shotgun','machinegun', 'pistol']:
                 Item(self, obj_center, tile_object.name)
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
@@ -181,6 +181,10 @@ class Game:
                 hit.kill()
                 self.effects_sounds['gun_pickup'].play()
                 self.player.weapon = 'shotgun'
+            if hit.type == 'machinegun':
+                hit.kill()
+                self.effects_sounds['gun_pickup'].play()
+                self.player.weapon = 'machinegun'
             if hit.type == 'pistol':
                 hit.kill()
                 self.effects_sounds['gun_pickup'].play()
