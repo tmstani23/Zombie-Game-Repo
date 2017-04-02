@@ -50,15 +50,15 @@ WEAPONS['shotgun'] = {'bullet_speed': 400,
                       'rate': 900,
                       'kickback': 300,
                       'spread': 20,
-                      'damage': 8,
+                      'damage': 6,
                       'bullet_size': 'sm',
                       'bullet_count': 12}
-WEAPONS['machinegun'] = {'bullet_speed': 1000,
+WEAPONS['machinegun'] = {'bullet_speed': 800,
                       'bullet_lifetime': 500,
                       'rate': 100,
                       'kickback': 150,
                       'spread': 7,
-                      'damage': 10,
+                      'damage': 8,
                       'bullet_size': 'sm',
                       'bullet_count': 1}
 
@@ -68,11 +68,11 @@ MOB_SPEEDS = [135, 100, 110, 125]
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
 MOB_HEALTH = 100
 MOB_DAMAGE = 10
-MOB_DAMAGE_MED = 15
-MOB_DAMAGE_HARD = 20
+MOB_DAMAGE_MED = 20
+MOB_DAMAGE_HARD = 30
 MOB_KNOCKBACK = 20
 AVOID_RADIUS = 50
-DETECT_RADIUS = 275
+DETECT_RADIUS = 375
 
 # Effects
 MUZZLE_FLASHES = ['whitePuff15.png', 'whitePuff16.png', 'whitePuff17.png',

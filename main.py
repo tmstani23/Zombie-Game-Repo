@@ -302,8 +302,7 @@ class Game:
         self.screen.fill(BLACK)
         
         if level == 1:
-            #set mobs to 30 here to pass the mob length check in wait_for_key function
-            #self.mobs = ["placeholder"]
+            
             self.draw_text("Zombie Crawl", self.title_font, 120, RED, 
                        WIDTH / 2, HEIGHT * 1/6, align="center")
             self.draw_text("Controls - Use space to shoot and p to pause.", self.title_font, 30, WHITE, 
