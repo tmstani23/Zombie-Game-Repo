@@ -29,7 +29,7 @@ WALL_IMG = 'tileGreen_39.png'
 PLAYER_HEALTH = 100
 PLAYER_SPEED = 280
 PLAYER_ROT_SPEED = 200
-PLAYER_IMG = 'manBlue_gun.png'
+PLAYER_IMG = ['manBlue_gun.png', 'manBlue_shotgun.png', 'manBlue_machinegun.png']
 PLAYER_HIT_RECT = pg.Rect(0, 0, 35, 35)
 BARREL_OFFSET = vec(30, 10)
 
@@ -64,9 +64,10 @@ WEAPONS['machinegun'] = {'bullet_speed': 800,
 
 # Mob settings
 MOB_IMG = 'zombie1_hold.png'
-MOB_SPEEDS = [135, 100, 110, 125]
+MOB_SPEEDS = [155, 105, 115, 125]
 MOB_HIT_RECT = pg.Rect(0, 0, 30, 30)
 MOB_HEALTH = 100
+MOB_HIT_RATE = 700
 MOB_DAMAGE = 10
 MOB_DAMAGE_MED = 20
 MOB_DAMAGE_HARD = 30
