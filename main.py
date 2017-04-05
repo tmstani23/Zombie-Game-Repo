@@ -26,8 +26,8 @@ def draw_player_health(surf, x, y, pct):
     pg.draw.rect(surf, WHITE, outline_rect, 2)
 
 class Game:
-    def __init__(self,):
-        pg.mixer.pre_init(44100, -16, 1, 2048)
+    def __init__(self):
+        pg.mixer.pre_init(44100, 16, 2, 4096)
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
@@ -68,7 +68,9 @@ class Game:
         self.hud_font = path.join(img_folder, 'Impacted2.0.TTF')
         self.dim_screen = pg.Surface(self.screen.get_size()).convert_alpha()
         self.dim_screen.fill((0, 0, 0, 180))
-        self.player_img = pg.image.load(path.join(img_folder, PLAYER_IMG)).convert_alpha()
+        self.player_img = []
+        for pimg in PLAYER_IMG:
+            self.player_img.append(pg.image.load(path.join(img_folder, pimg)).convert_alpha())
         self.bullet_images = {}
         self.bullet_images['lg'] = pg.image.load(path.join(img_folder, BULLET_IMG)).convert_alpha()
         self.bullet_images['sm'] = pg.transform.scale(self.bullet_images['lg'], (10, 10))
@@ -131,12 +133,12 @@ class Game:
                              tile_object.y + tile_object.height / 2)
             if tile_object.name == 'player':
                 self.player = Player(self, obj_center.x, obj_center.y)
-            if tile_object.name == 'zombie':
-                Mob(self, obj_center.x, obj_center.y)
             if tile_object.name == 'wall':
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
-            if tile_object.name in ['health', 'shotgun', 'pistol']:
+            if tile_object.name == 'zombie':
+                Mob(self, obj_center.x, obj_center.y)
+            if tile_object.name in ['health', 'shotgun','machinegun', 'pistol']:
                 Item(self, obj_center, tile_object.name)
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
@@ -181,22 +183,29 @@ class Game:
                 hit.kill()
                 self.effects_sounds['gun_pickup'].play()
                 self.player.weapon = 'shotgun'
+            if hit.type == 'machinegun':
+                hit.kill()
+                self.effects_sounds['gun_pickup'].play()
+                self.player.weapon = 'machinegun'
             if hit.type == 'pistol':
                 hit.kill()
                 self.effects_sounds['gun_pickup'].play()
                 self.player.weapon = 'pistol'
         # mobs hit player
-        #check out the video on this section...
+        #watch video on this section
         hits = pg.sprite.spritecollide(self.player, self.mobs, False, collide_hit_rect)
+        
         for hit in hits:
             if random() < 0.7:
                 choice(self.player_hit_sounds).play()
+            
             if self.current_level == 2:
                 self.player.health -= MOB_DAMAGE_MED
             elif self.current_level == 3:
                 self.player.health -= MOB_DAMAGE_HARD 
             else: 
                 self.player.health -= MOB_DAMAGE
+        
             hit.vel = vec(0, 0)
             if self.player.health <= 0:
                 self.playing = False
@@ -227,7 +236,6 @@ class Game:
 
     def draw(self):
         pg.display.set_caption("{:.2f}".format(self.clock.get_fps()))
-        # self.screen.fill(BGCOLOR)
         self.screen.blit(self.map_img, self.camera.apply(self.map))
         # self.draw_grid()
         for sprite in self.all_sprites:
@@ -298,8 +306,7 @@ class Game:
         self.screen.fill(BLACK)
         
         if level == 1:
-            #set mobs to 30 here to pass the mob length check in wait_for_key function
-            #self.mobs = ["placeholder"]
+            
             self.draw_text("Zombie Crawl", self.title_font, 120, RED, 
                        WIDTH / 2, HEIGHT * 1/6, align="center")
             self.draw_text("Controls - Use space to shoot and p to pause.", self.title_font, 30, WHITE, 
@@ -376,6 +383,7 @@ class Game:
                     if self.s_screen == True:
                         if event.key == pg.K_c:
                             try:
+                                #move back once done balancing
                                 #if len(self.mobs) == 0: 
                                     if level == 4:
                                         self.quit()
@@ -421,7 +429,7 @@ class Game:
 
 # create the game object
 g = Game()
-g.show_start_screen(3)
+g.show_start_screen(2)
 
 #while True:
     

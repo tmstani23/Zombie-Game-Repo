@@ -32,7 +32,7 @@ class Player(pg.sprite.Sprite):
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
-        self.image = game.player_img
+        self.image = game.player_img[1]
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
         self.hit_rect = PLAYER_HIT_RECT
@@ -51,14 +51,18 @@ class Player(pg.sprite.Sprite):
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT] or keys[pg.K_a]:
             self.rot_speed = PLAYER_ROT_SPEED
+            
         if keys[pg.K_RIGHT] or keys[pg.K_d]:
             self.rot_speed = -PLAYER_ROT_SPEED
+            
         if keys[pg.K_UP] or keys[pg.K_w]:
             self.vel = vec(PLAYER_SPEED, 0).rotate(-self.rot)
+            
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vel = vec(-PLAYER_SPEED / 2, 0).rotate(-self.rot)
+            
         if keys[pg.K_SPACE]:
-            self.shoot()
+                self.shoot()
 
     def shoot(self):
         now = pg.time.get_ticks()
@@ -84,7 +88,12 @@ class Player(pg.sprite.Sprite):
     def update(self):
         self.get_keys()
         self.rot = (self.rot + self.rot_speed * self.game.dt) % 360
-        self.image = pg.transform.rotate(self.game.player_img, self.rot)
+        if self.weapon == "pistol":
+            self.image = pg.transform.rotate(self.game.player_img[0], self.rot)
+        if self.weapon == "shotgun":
+            self.image = pg.transform.rotate(self.game.player_img[1], self.rot)
+        if self.weapon == "machinegun":
+            self.image = pg.transform.rotate(self.game.player_img[2], self.rot)
         if self.damaged:
             try: 
                 #keep trying to fill red chain of alpha values until list is finished
@@ -116,6 +125,7 @@ class Mob(pg.sprite.Sprite):
         self.rect.center = (x, y)
         self.hit_rect = MOB_HIT_RECT.copy()
         self.hit_rect.center = self.rect.center
+        self.last_hit = 0
         self.pos = vec(x, y)
         self.vel = vec(0, 0)
         self.acc = vec(0, 0)
@@ -163,6 +173,7 @@ class Mob(pg.sprite.Sprite):
             col = YELLOW
         else:
             col = RED
+    
         width = int(self.rect.width * self.health / MOB_HEALTH)
         self.health_bar = pg.Rect(0, 0, width, 7)
         if self.health < MOB_HEALTH:
@@ -179,7 +190,6 @@ class Bullet(pg.sprite.Sprite):
         self.hit_rect = self.rect
         self.pos = vec(pos)
         self.rect.center = pos
-        #spread = uniform(-GUN_SPREAD, GUN_SPREAD)
         self.vel = dir * WEAPONS[game.player.weapon]['bullet_speed'] * uniform(0.9, 1.1)
         self.spawn_time = pg.time.get_ticks()
         self.damage = damage
