@@ -33,6 +33,8 @@ class Game:
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         self.load_data()
+       
+       
         
     def draw_text(self, text, font_name, size, color, x, y, align="nw"):
         font = pg.font.Font(font_name, size)
@@ -143,11 +145,14 @@ class Game:
         self.camera = Camera(self.map.width, self.map.height)
         self.draw_debug = False
         self.paused = False
-        
-        if self.current_level == 2 or 3:
-            self.night = True
-        else:
+        self.night =  False
+
+
+        if self.current_level == 1:
             self.night = False
+        else:
+            self.night = True
+       
         self.effects_sounds['level_start'].play()
 
     def run(self):
@@ -169,6 +174,8 @@ class Game:
         # update portion of the game loop
         self.all_sprites.update()
         self.camera.update(self.player)
+
+        
         #game over?
         if len(self.mobs) == 0:
             self.playing = False
@@ -248,7 +255,6 @@ class Game:
             for wall in self.walls:
                 pg.draw.rect(self.screen, CYAN, self.camera.apply_rect(wall.rect), 1)
 
-        # pg.draw.rect(self.screen, WHITE, self.player.hit_rect, 2)
         if self.night:
             self.render_fog()
         
@@ -355,7 +361,9 @@ class Game:
                 self.draw_text("Press c key to continue - r key to restart current level - or q to quit", self.title_font, 20, WHITE, 
                             WIDTH / 2, HEIGHT * 4/6, align="center")
             if level == 4:
-                self.draw_text("YOU WIN!", self.title_font, 120, RED, 
+                self.draw_text("Congratulations!", self.title_font, 140, RED, 
+                        WIDTH / 2, HEIGHT * 2/6, align="center")
+                self.draw_text("YOU BEAT THE GAME!", self.title_font, 120, RED, 
                         WIDTH / 2, HEIGHT / 2, align="center")
                 self.draw_text("Press q to quit or r key to restart current level", self.title_font, 20, WHITE, 
                             WIDTH / 2, HEIGHT * 4/6, align="center")
@@ -383,8 +391,7 @@ class Game:
                     if self.s_screen == True:
                         if event.key == pg.K_c:
                             try:
-                                #move back once done balancing
-                                #if len(self.mobs) == 0: 
+                                if len(self.mobs) == 0: 
                                     if level == 4:
                                         self.quit()
                                     if level == 3:
@@ -429,7 +436,7 @@ class Game:
 
 # create the game object
 g = Game()
-g.show_start_screen(2)
+g.show_start_screen(1)
 
 #while True:
     

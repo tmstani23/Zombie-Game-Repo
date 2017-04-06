@@ -55,10 +55,10 @@ WEAPONS['shotgun'] = {'bullet_speed': 400,
                       'bullet_count': 12}
 WEAPONS['machinegun'] = {'bullet_speed': 800,
                       'bullet_lifetime': 500,
-                      'rate': 100,
+                      'rate': 150,
                       'kickback': 150,
-                      'spread': 7,
-                      'damage': 8,
+                      'spread': 10,
+                      'damage': 7,
                       'bullet_size': 'sm',
                       'bullet_count': 1}
 
@@ -81,7 +81,7 @@ MUZZLE_FLASHES = ['whitePuff15.png', 'whitePuff16.png', 'whitePuff17.png',
 SPLAT = 'splat red.png'
 FLASH_DURATION = 50
 DAMAGE_ALPHA = [i for i in range(0, 255, 55)]
-NIGHT_COLOR = (25, 25, 25)
+NIGHT_COLOR = (20, 20, 20)
 LIGHT_RADIUS = (600, 600)
 LIGHT_MASK = "light_350_med.png"
 
