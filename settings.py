@@ -55,10 +55,10 @@ WEAPONS['shotgun'] = {'bullet_speed': 400,
                       'bullet_count': 12}
 WEAPONS['machinegun'] = {'bullet_speed': 800,
                       'bullet_lifetime': 500,
-                      'rate': 100,
+                      'rate': 115,
                       'kickback': 150,
-                      'spread': 7,
-                      'damage': 8,
+                      'spread': 10,
+                      'damage': 7,
                       'bullet_size': 'sm',
                       'bullet_count': 1}
 
@@ -72,7 +72,7 @@ MOB_DAMAGE = 10
 MOB_DAMAGE_MED = 20
 MOB_DAMAGE_HARD = 30
 MOB_KNOCKBACK = 20
-AVOID_RADIUS = 50
+AVOID_RADIUS = 75
 DETECT_RADIUS = 375
 
 # Effects
@@ -81,7 +81,7 @@ MUZZLE_FLASHES = ['whitePuff15.png', 'whitePuff16.png', 'whitePuff17.png',
 SPLAT = 'splat red.png'
 FLASH_DURATION = 50
 DAMAGE_ALPHA = [i for i in range(0, 255, 55)]
-NIGHT_COLOR = (25, 25, 25)
+NIGHT_COLOR = (20, 20, 20)
 LIGHT_RADIUS = (600, 600)
 LIGHT_MASK = "light_350_med.png"
 
@@ -98,7 +98,7 @@ ITEM_IMAGES = {'health': 'health_pack.png',
                'shotgun': 'obj_shotgun.png',
                'machinegun': 'weapon_machine.png',
                'pistol': 'weapon_gun.png'}
-HEALTH_PACK_AMOUNT = 30
+HEALTH_PACK_AMOUNT = 20
 BOB_RANGE = 15
 BOB_SPEED = 0.4
 
