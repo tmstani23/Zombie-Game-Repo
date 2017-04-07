@@ -247,7 +247,7 @@
   <object id="238" name="wall" x="544" y="640" width="160" height="64"/>
   <object id="239" name="wall" x="800" y="832" width="160" height="64"/>
   <object id="240" name="wall" x="768" y="576" width="192" height="64"/>
-  <object id="241" name="wall" x="320" y="256" width="192" height="64"/>
+  <object id="241" name="wall" x="304" y="256" width="208" height="64"/>
   <object id="242" name="wall" x="320" y="640" width="128" height="64"/>
   <object id="243" name="wall" x="960" y="704" width="144" height="64"/>
   <object id="244" name="wall" x="1088" y="768" width="192" height="64"/>
@@ -428,7 +428,6 @@
   <object id="432" name="zombie" x="704" y="1696" width="32" height="32"/>
   <object id="433" name="zombie" x="864" y="1680" width="32" height="32"/>
   <object id="434" name="zombie" x="2960" y="1424" width="32" height="32"/>
-  <object id="435" name="machinegun" x="2640" y="208" width="32" height="32"/>
   <object id="438" name="shotgun" x="272" y="1232" width="32" height="32"/>
   <object id="439" name="wall" x="2464" y="1280" width="32" height="32"/>
   <object id="440" name="pistol" x="2320" y="1296" width="32" height="32"/>

@@ -76,9 +76,9 @@ class Game:
         self.bullet_images = {}
         self.bullet_images['lg'] = pg.image.load(path.join(img_folder, BULLET_IMG)).convert_alpha()
         self.bullet_images['sm'] = pg.transform.scale(self.bullet_images['lg'], (10, 10))
-        self.mob_img = pg.image.load(path.join(img_folder, MOB_IMG)).convert_alpha()
         self.wall_img = pg.image.load(path.join(img_folder, WALL_IMG)).convert_alpha()
         self.wall_img = pg.transform.scale(self.wall_img, (TILESIZE, TILESIZE))
+        self.mob_img = pg.image.load(path.join(img_folder, MOB_IMG)).convert_alpha()
         self.splat = pg.image.load(path.join(img_folder, SPLAT)).convert_alpha()
         self.splat = pg.transform.scale(self.splat, (64, 64))
         self.gun_flashes = []

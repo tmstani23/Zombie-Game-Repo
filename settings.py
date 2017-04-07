@@ -55,7 +55,7 @@ WEAPONS['shotgun'] = {'bullet_speed': 400,
                       'bullet_count': 12}
 WEAPONS['machinegun'] = {'bullet_speed': 800,
                       'bullet_lifetime': 500,
-                      'rate': 150,
+                      'rate': 115,
                       'kickback': 150,
                       'spread': 10,
                       'damage': 7,
@@ -72,7 +72,7 @@ MOB_DAMAGE = 10
 MOB_DAMAGE_MED = 20
 MOB_DAMAGE_HARD = 30
 MOB_KNOCKBACK = 20
-AVOID_RADIUS = 50
+AVOID_RADIUS = 75
 DETECT_RADIUS = 375
 
 # Effects
@@ -98,7 +98,7 @@ ITEM_IMAGES = {'health': 'health_pack.png',
                'shotgun': 'obj_shotgun.png',
                'machinegun': 'weapon_machine.png',
                'pistol': 'weapon_gun.png'}
-HEALTH_PACK_AMOUNT = 30
+HEALTH_PACK_AMOUNT = 20
 BOB_RANGE = 15
 BOB_SPEED = 0.4
 
