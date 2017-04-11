@@ -5,4 +5,5 @@ Run around the level, shooting zombies, collecting health powerups, and new weap
 Try to stay alive and kill all the zombies to move on.
 There are three levels each progressively more difficult.
 
-To install: Download zombiegame.zip from the repo. Extract and copy wherever you like. Run main.exe to play!
+To install: Download Zombie Game.zip from the repo. Extract and copy wherever you like. Run main.exe inside the extracted file to play!
+https://github.com/tmstani23/Zombie-Game-Repo/blob/Working/Zombie%20Game.zip
