@@ -33,6 +33,9 @@ def find_data_file(filename):
 
     return os.path.join(datadir, filename)
 
+
+#all datafiles: images,sounds etc must be in the root folder of the game 
+    #and referenced there in the main code for the build to work
 #shift right click open command window in root file 
 #type python setup.py build   to create a build folder with all the files or,
 #type python setup.py bdist_msi in the command window to create the windows installer
