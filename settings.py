@@ -104,7 +104,7 @@ BOB_SPEED = 0.4
 
 # Sounds
 BG_MUSIC = 'espionage.ogg'
-PLAYER_HIT_SOUNDS = ['pain/8.wav', 'pain/9.wav', 'pain/10.wav', 'pain/11.wav']
+PLAYER_HIT_SOUNDS = ['8.wav', '9.wav', '10.wav', '11.wav']
 ZOMBIE_MOAN_SOUNDS = ['brains2.wav', 'brains3.wav', 'zombie-roar-1.wav', 'zombie-roar-2.wav',
                       'zombie-roar-3.wav', 'zombie-roar-5.wav', 'zombie-roar-6.wav', 'zombie-roar-7.wav']
 ZOMBIE_HIT_SOUNDS = ['splat-15.wav']
