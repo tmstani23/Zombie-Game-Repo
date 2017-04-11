@@ -2,6 +2,7 @@
 import pygame as pg
 import sys
 from random import choice, random
+import os
 from os import path
 from settings import *
 from sprites import *
@@ -32,6 +33,7 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
+        game_folder = os.path.dirname(__file__)
         self.load_data()
        
        
@@ -61,63 +63,59 @@ class Game:
         self.screen.blit(text_surface, text_rect)
 
     def load_data(self):
-        game_folder = path.dirname(__file__)
-        img_folder = path.join(game_folder, 'img')
-        snd_folder = path.join(game_folder, 'snd')
-        music_folder = path.join(game_folder, 'music')
-        self.map_folder = path.join(game_folder, 'maps')
-        self.title_font = path.join(img_folder, 'ZOMBIE.TTF')
-        self.hud_font = path.join(img_folder, 'Impacted2.0.TTF')
+        game_folder = os.path.dirname(__file__)
+        self.title_font = 'ZOMBIE.TTF'
+        self.hud_font = 'Impacted2.0.TTF'
         self.dim_screen = pg.Surface(self.screen.get_size()).convert_alpha()
         self.dim_screen.fill((0, 0, 0, 180))
         self.player_img = []
         for pimg in PLAYER_IMG:
-            self.player_img.append(pg.image.load(path.join(img_folder, pimg)).convert_alpha())
+            self.player_img.append(pg.image.load(pimg).convert_alpha())
         self.bullet_images = {}
-        self.bullet_images['lg'] = pg.image.load(path.join(img_folder, BULLET_IMG)).convert_alpha()
+        self.bullet_images['lg'] = pg.image.load(BULLET_IMG).convert_alpha()
         self.bullet_images['sm'] = pg.transform.scale(self.bullet_images['lg'], (10, 10))
-        self.wall_img = pg.image.load(path.join(img_folder, WALL_IMG)).convert_alpha()
+        self.wall_img = pg.image.load(WALL_IMG).convert_alpha()
         self.wall_img = pg.transform.scale(self.wall_img, (TILESIZE, TILESIZE))
-        self.mob_img = pg.image.load(path.join(img_folder, MOB_IMG)).convert_alpha()
-        self.splat = pg.image.load(path.join(img_folder, SPLAT)).convert_alpha()
+        self.mob_img = pg.image.load(MOB_IMG).convert_alpha()
+        self.splat = pg.image.load(SPLAT).convert_alpha()
         self.splat = pg.transform.scale(self.splat, (64, 64))
         self.gun_flashes = []
         for img in MUZZLE_FLASHES:
-            self.gun_flashes.append(pg.image.load(path.join(img_folder, img)).convert_alpha())
+            self.gun_flashes.append(pg.image.load(img).convert_alpha())
         self.item_images = {}
         for item in ITEM_IMAGES:
-            self.item_images[item] = pg.image.load(path.join(img_folder, ITEM_IMAGES[item])).convert_alpha()
+            self.item_images[item] = pg.image.load(ITEM_IMAGES[item]).convert_alpha()
         
         #Lighting effect
         self.fog = pg.Surface((WIDTH, HEIGHT))
         self.fog.fill(NIGHT_COLOR)
-        self.light_mask = pg.image.load(path.join(img_folder, LIGHT_MASK)).convert_alpha()
+        self.light_mask = pg.image.load(LIGHT_MASK).convert_alpha()
         self.light_mask = pg.transform.scale(self.light_mask, LIGHT_RADIUS)
         self.light_rect = self.light_mask.get_rect()
         
         # Sound loading
-        pg.mixer.music.load(path.join(music_folder, BG_MUSIC))
+        pg.mixer.music.load(BG_MUSIC)
         self.effects_sounds = {}
         for type in EFFECTS_SOUNDS:
-            self.effects_sounds[type] = pg.mixer.Sound(path.join(snd_folder, EFFECTS_SOUNDS[type]))
+            self.effects_sounds[type] = pg.mixer.Sound(EFFECTS_SOUNDS[type])
         self.weapon_sounds = {}
         for weapon in WEAPON_SOUNDS:
             self.weapon_sounds[weapon] = []
             for snd in WEAPON_SOUNDS[weapon]:
-                s = pg.mixer.Sound(path.join(snd_folder, snd))
+                s = pg.mixer.Sound(snd)
                 s.set_volume(0.3)
                 self.weapon_sounds[weapon].append(s)
         self.zombie_moan_sounds = []
         for snd in ZOMBIE_MOAN_SOUNDS:
-            s = pg.mixer.Sound(path.join(snd_folder, snd))
+            s = pg.mixer.Sound(snd)
             s.set_volume(0.2)
             self.zombie_moan_sounds.append(s)
         self.player_hit_sounds = []
         for snd in PLAYER_HIT_SOUNDS:
-            self.player_hit_sounds.append(pg.mixer.Sound(path.join(snd_folder, snd)))
+            self.player_hit_sounds.append(pg.mixer.Sound(snd))
         self.zombie_hit_sounds = []
         for snd in ZOMBIE_HIT_SOUNDS:
-            self.zombie_hit_sounds.append(pg.mixer.Sound(path.join(snd_folder, snd)))
+            self.zombie_hit_sounds.append(pg.mixer.Sound(snd))
 
     def new(self, t_map, level):
         # initialize all variables and do all the setup for a new game
@@ -127,7 +125,7 @@ class Game:
         self.mobs = pg.sprite.Group()
         self.bullets = pg.sprite.Group()
         self.items = pg.sprite.Group()
-        self.map = TiledMap(path.join(self.map_folder, t_map))
+        self.map = TiledMap(t_map)
         self.map_img = self.map.make_map()
         self.map.rect = self.map_img.get_rect()
         for tile_object in self.map.tmxdata.objects:
