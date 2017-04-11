@@ -13,7 +13,7 @@ files = ['manBlue_gun.png', 'manBlue_machinegun.png', 'manBlue_shotgun.png', 'bu
     '8.wav', '9.wav', '10.wav', '11.wav', 'brains2.wav', 'brains3.wav', 'zombie-roar-1.wav', 'zombie-roar-2.wav', 
     'zombie-roar-3.wav', 'zombie-roar-5.wav', 'zombie-roar-6.wav', 'zombie-roar-7.wav', 'splat-15.wav', 'gun_silenced.wav', 
     'pistol.wav', 'shotgun.wav', 'level_start.wav', 'health_pack.wav', 'gun_pickup.wav', "level1.tmx", "l2.tmx", "level3.tmx", 
-    'Impacted2.0.TTF', 'ZOMBIE.TTF', "attributions.txt"]
+    'Impacted2.0.TTF', 'ZOMBIE.TTF', "attributions.txt", "gameicon.jpg"]
 includes = ["settings", "sprites", "tilemap"]
 cx_Freeze.setup(
     name = "Zombie Crawl",

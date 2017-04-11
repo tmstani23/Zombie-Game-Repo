@@ -7,3 +7,11 @@ There are three levels each progressively more difficult.
 
 To install: Download Zombie Game.zip from the repo. Extract and copy wherever you like. Run main.exe inside the extracted file to play!
 https://github.com/tmstani23/Zombie-Game-Repo/blob/Working/Zombie%20Game.zip
+
+Screenshots:
+
+![Alt text](https://github.com/tmstani23/Zombie-Game-Repo/blob/Working/zg1screen.jpg)
+
+![Alt text](https://github.com/tmstani23/Zombie-Game-Repo/blob/Working/zg2screen.jpg)
+
+![Alt text](https://github.com/tmstani23/Zombie-Game-Repo/blob/Working/zg3screen.jpg)

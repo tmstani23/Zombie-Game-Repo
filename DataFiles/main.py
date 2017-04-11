@@ -34,6 +34,8 @@ class Game:
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
         game_folder = os.path.dirname(__file__)
+        icon = pg.image.load('gameicon.jpg')
+        pg.display.set_icon(icon)
         self.load_data()
        
        
@@ -321,6 +323,8 @@ class Game:
                        WIDTH / 2, HEIGHT * 4/6, align="center")
             self.draw_text("Press c to continue or q to quit.", self.title_font, 40, WHITE, 
                        WIDTH / 2, HEIGHT * 5/6, align="center")
+            self.draw_text("Created by Timothy Stanislav - Indoorkin Productions", self.title_font, 15, LIGHTGREY, 
+                       WIDTH / 2, HEIGHT * 5.75/6, align="center")
         if level == 2:
             self.draw_text("Welcome to level " + str(level), self.title_font, 100, RED, 
                        WIDTH / 2, HEIGHT * 2/6, align="center")
